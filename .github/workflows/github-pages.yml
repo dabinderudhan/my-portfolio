@@ -1,33 +1,51 @@
----
-name: Build and Deploy React App to GitHub Pages
+name: Deploy
+
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+
 jobs:
-  build-and-deploy:
-    name: Build and Deploy
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
-      - name: Setup
-        uses: actions/setup-node@v3
+      - name: Setup Node
+        uses: actions/setup-node@v1
         with:
-          node-version: "16"
+          node-version: 16
 
-      - run: npm ci
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
 
-      - name: Build
-        run: npm install
+      - name: Build project
+        run: npm run build
 
-      - name: Test
-        run: npm run test
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v2
+        with:
+          name: production-files
+          path: ./build
 
-      - name: Deploy
-        run: |
-          git config --global user.name 'Dabinder Udhan'
-          git config --global user.email 'dabinder.udhan@gmail.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}    
-          npm run deploy
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: production-files
+          path: ./build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
