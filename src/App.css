@@ -145,18 +145,25 @@ a{ color: inherit; }
 .dot{ width:10px; height:10px; border-radius: 999px; display:inline-block; }
 .red{ background:#ef4444; } .yellow{ background:#f59e0b; } .green{ background:#22c55e; }
 .terminalTitle{ margin-left: 8px; color: var(--muted); font-size: 13px; }
-.terminalBody{
-  margin:0;
+.terminalBody {
+  margin: 0;
   padding: 14px 14px 18px;
   min-height: 320px;
   font-size: 13.5px;
   line-height: 1.55;
-  color: color-mix(in srgb, var(--text) 85%, transparent);
+  color: var(--text);
   white-space: pre-wrap;
 }
-.cursor{ animation: blink 1s step-end infinite; }
-@keyframes blink { 50%{ opacity: 0; } }
 
+.cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
 /* Sections */
 .section{ padding: 52px 0; border-top: 1px solid var(--line); }
 .sectionHead{ margin-bottom: 14px; }
