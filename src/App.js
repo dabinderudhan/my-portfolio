@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   FiMail,
@@ -13,7 +13,7 @@ const EMAIL = "Dabinder.udhan@gmail.com";
 const LINKEDIN = "https://www.linkedin.com/in/dabinderudhan/";
 const GITHUB = "https://github.com/dabinderudhan";
 
-const projects = [
+const PROJECTS = [
   {
     id: "intune",
     title: "Intune Deployment SOP",
@@ -23,7 +23,7 @@ const projects = [
     details: [
       "Created a repeatable onboarding workflow for new and repurposed devices.",
       "Improved consistency for profile setup, app readiness, and enrollment checks.",
-      "Focused on reducing manual steps and deployment mistakes.",
+      "Reduced manual steps and deployment mistakes.",
     ],
   },
   {
@@ -47,7 +47,7 @@ const projects = [
     details: [
       "Reduced repetitive manual work through automation.",
       "Improved reporting consistency and daily visibility.",
-      "Used an automation-first approach to make processes easier to maintain.",
+      "Made recurring processes easier to maintain.",
     ],
   },
 ];
@@ -57,36 +57,38 @@ function MatrixBackground() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
     let animationId;
     let width = window.innerWidth;
     let height = window.innerHeight;
+    const fontSize = 14;
+    const chars =
+      "01<>/$#{}[]=+*%ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    let columns = Math.floor(width / fontSize);
+    let drops = Array(columns).fill(0);
 
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
       canvas.width = width;
       canvas.height = height;
+      columns = Math.floor(width / fontSize);
+      drops = Array(columns).fill(0);
     };
 
-    resize();
-    window.addEventListener("resize", resize);
-
-    const chars =
-      "01<>/$#{}[]=+*%ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    const fontSize = 14;
-    const columns = Math.floor(width / fontSize);
-    const drops = Array(columns).fill(0);
-
     const draw = () => {
-      ctx.fillStyle = "rgba(8, 12, 20, 0.08)";
+      ctx.fillStyle = "rgba(7, 16, 24, 0.08)";
       ctx.fillRect(0, 0, width, height);
 
       ctx.fillStyle = "rgba(74, 222, 128, 0.22)";
       ctx.font = `${fontSize}px monospace`;
 
-      for (let i = 0; i < drops.length; i++) {
+      for (let i = 0; i < drops.length; i += 1) {
         const char = chars[Math.floor(Math.random() * chars.length)];
         ctx.fillText(char, i * fontSize, drops[i] * fontSize);
 
@@ -97,14 +99,16 @@ function MatrixBackground() {
         drops[i] += 1;
       }
 
-      animationId = requestAnimationFrame(draw);
+      animationId = window.requestAnimationFrame(draw);
     };
 
+    resize();
+    window.addEventListener("resize", resize);
     draw();
 
     return () => {
-      cancelAnimationFrame(animationId);
       window.removeEventListener("resize", resize);
+      window.cancelAnimationFrame(animationId);
     };
   }, []);
 
@@ -120,19 +124,21 @@ function useTypewriter(lines, speed = 18, linePause = 350) {
     async function run() {
       let output = "";
 
-      for (let i = 0; i < lines.length; i++) {
+      for (let i = 0; i < lines.length; i += 1) {
         const line = lines[i];
 
-        for (let j = 0; j < line.length; j++) {
+        for (let j = 0; j < line.length; j += 1) {
           if (cancelled) return;
           output += line[j];
           setText(output);
+          // eslint-disable-next-line no-await-in-loop
           await new Promise((resolve) => setTimeout(resolve, speed));
         }
 
         if (i !== lines.length - 1) {
           output += "\n";
           setText(output);
+          // eslint-disable-next-line no-await-in-loop
           await new Promise((resolve) => setTimeout(resolve, linePause));
         }
       }
@@ -156,21 +162,21 @@ function Terminal() {
   const [command, setCommand] = useState("");
   const inputRef = useRef(null);
 
-  const initialText = useTypewriter(
+  const introText = useTypewriter(
     [
       "dabinder@portfolio:~$ whoami",
       "IT Administrator | Microsoft 365 | Intune | Entra ID",
       "dabinder@portfolio:~$ focus",
       "Automation-first operations + security-minded delivery",
       "dabinder@portfolio:~$ next",
-      "Cybersecurity (defensive → offensive)",
+      "Cybersecurity (defensive -> offensive)",
     ],
     18,
     300
   );
 
-  const runCommand = (cmdRaw) => {
-    const cmd = cmdRaw.trim().toLowerCase();
+  const runCommand = (raw) => {
+    const cmd = raw.trim().toLowerCase();
     let output = [];
 
     switch (cmd) {
@@ -220,8 +226,8 @@ function Terminal() {
     setHistory((prev) => [...prev, `dabinder@portfolio:~$ ${cmd}`, ...output]);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
     runCommand(command);
     setCommand("");
   };
@@ -236,15 +242,15 @@ function Terminal() {
       </div>
 
       <pre className="terminalIntro">
-        {initialText}
+        {introText}
         <span className="cursor">▍</span>
       </pre>
 
       <div className="terminalDivider" />
 
       <div className="terminalHistory">
-        {history.map((line, i) => (
-          <div key={`${line}-${i}`} className="terminalLine">
+        {history.map((line, index) => (
+          <div key={`${line}-${index}`} className="terminalLine">
             {line}
           </div>
         ))}
@@ -297,8 +303,8 @@ function ProjectCard({ project }) {
   );
 }
 
-export default function App() {
-  const year = useMemo(() => new Date().getFullYear(), []);
+function App() {
+  const year = new Date().getFullYear();
 
   return (
     <div className="app">
@@ -337,21 +343,40 @@ export default function App() {
                 growing cybersecurity focus.
               </h1>
               <p className="subtitle">
-                I work on device deployment, identity, email security, documentation,
-                and automation that reduces manual work and improves consistency.
+                I work on device deployment, identity, email security,
+                documentation, and automation that reduces manual work and
+                improves consistency.
               </p>
 
               <div className="heroButtons">
-                <a className="btn" href={LINKEDIN} target="_blank" rel="noreferrer">
+                <a
+                  className="btn"
+                  href={LINKEDIN}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <FiLinkedin /> LinkedIn
                 </a>
+
                 <a className="btnOutline" href={`mailto:${EMAIL}`}>
                   <FiMail /> Email
                 </a>
-                <a className="btnOutline" href={GITHUB} target="_blank" rel="noreferrer">
+
+                <a
+                  className="btnOutline"
+                  href={GITHUB}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <FiGithub /> GitHub
                 </a>
-                <a className="btnOutline" href="/resume.pdf" target="_blank" rel="noreferrer">
+
+                <a
+                  className="btnOutline"
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <FiDownload /> Resume
                 </a>
               </div>
@@ -469,7 +494,7 @@ export default function App() {
             </div>
 
             <div className="gridThree">
-              {projects.map((project) => (
+              {PROJECTS.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
             </div>
@@ -505,9 +530,9 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="footer">
-        © {year} Dabinder Udhan
-      </footer>
+      <footer className="footer">© {year} Dabinder Udhan</footer>
     </div>
   );
 }
+
+export default App;
