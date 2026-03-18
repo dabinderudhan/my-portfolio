@@ -1,44 +1,38 @@
-# Dabinder Udhan Portfolio
+# Dabinder Udhan — Portfolio v2.0
 
-Personal portfolio website for Dabinder Udhan, focused on Microsoft 365, Intune, Entra ID, endpoint operations, automation, and cybersecurity growth.
+A modern, dark-themed IT Administrator portfolio built with React.
 
-## Live Website
-[https://dabinderudhan.com/](https://dabinderudhan.com/)
+## What's New in v2.0
 
-## Overview
-This portfolio showcases:
-- IT administration experience
-- Microsoft 365 and endpoint management skills
-- Security-focused operational work
-- Automation and PowerShell interests
-- Career progression toward cybersecurity
+- **Refined dark theme** with emerald (#10b981) accent and subtle animated grid background
+- **Premium typography** using Outfit + JetBrains Mono fonts
+- **Scroll-aware header** with blur backdrop effect
+- **Smooth scroll animations** via Intersection Observer (FadeIn component)
+- **Mobile-first responsive** with hamburger menu
+- **6 skill categories** (expanded from 3)
+- **Enhanced terminal** with colored dots, scroll-to-bottom, and border separators
+- **Roadmap section** with status badges (Active / Target)
+- **Stats grid** with gradient text
+- **Grid + orb background** (replaces Matrix rain for lighter performance)
 
-## Features
-- Modern responsive React portfolio
-- Terminal-style interactive section
-- Project showcase cards
-- Skills and certification roadmap
-- Contact and recruiter-friendly layout
-- SEO-ready metadata and social sharing tags
+## Getting Started
+
+```bash
+npm install
+npm start
+```
+
+## Deploy to GitHub Pages
+
+Push to `main` — the existing GitHub Actions workflow will build and deploy automatically.
+
+## Customization
+
+All content lives in `src/data.js` — update your skills, projects, roadmap, and contact info there.
 
 ## Tech Stack
-- React
-- Framer Motion
-- React Icons
-- CSS
 
-## Project Structure
-```bash
-src/
-  components/
-  data.js
-  App.js
-  App.css
-  index.css
-  index.js
-public/
-  resume.pdf
-  og-image.png
-  robots.txt
-  sitemap.xml
-  manifest.json
+- React 18 + Create React App
+- Framer Motion (hero animations)
+- React Icons (Feather icon set)
+- CSS custom properties (no Tailwind/SCSS dependency)
