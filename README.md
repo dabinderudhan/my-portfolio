@@ -1,4 +1,4 @@
-# Dabinder Udhan — Portfolio v2.0
+# Dabinder Udhan — Portfolio v2.1
 
 A modern, dark-themed IT Administrator portfolio built with React.
 
