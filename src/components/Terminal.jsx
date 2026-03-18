@@ -52,9 +52,9 @@ function Terminal() {
   const introText = useTypewriter(
     [
       "dabinder@portfolio:~$ whoami",
-      "IT Administrator | Microsoft 365 | Intune | Entra ID",
+      "L2 IT Administrator | Microsoft 365 | Intune | Entra ID",
       "dabinder@portfolio:~$ focus",
-      "Automation-first operations + security-minded delivery",
+      "Escalations, mentoring L1s, and security-minded M365 ops",
       "dabinder@portfolio:~$ next",
       "Cybersecurity growth \u2192 hands-on admin, defense, scripting",
     ],
@@ -79,7 +79,7 @@ function Terminal() {
         output = ["Commands: help, about, skills, projects, certs, experience, contact, linkedin, github, resume, clear"];
         break;
       case "about":
-        output = ["IT Administrator focused on Microsoft 365, Intune, Entra ID, endpoint operations, automation, and cybersecurity growth."];
+        output = ["L2 IT Administrator focused on M365, Intune, Entra ID, escalations, team mentoring, and cybersecurity growth."];
         break;
       case "skills":
         output = ["Microsoft 365, Intune, Entra ID, Exchange Online, Defender for O365, PowerShell, SOPs, automation"];

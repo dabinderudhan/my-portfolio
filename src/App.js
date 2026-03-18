@@ -37,11 +37,11 @@ function App() {
           <div className="about-grid">
             <FadeIn delay={0.1}>
               <p className="about-text">
-                I'm an IT Administrator focused on <strong>Microsoft 365, Intune,
+                I'm an L2 IT Administrator focused on <strong>Microsoft 365, Intune,
                 Entra ID, endpoint operations, security controls,</strong> and{" "}
-                <strong>process standardization</strong>. I bring a service-oriented
-                mindset forged from years of operational leadership across
-                hospitality, logistics, and customer-facing roles.
+                <strong>process standardization</strong>. Recently promoted to handle
+                escalated issues, mentor L1 team members, and take on deeper
+                M365 administration responsibilities.
               </p>
             </FadeIn>
             <FadeIn delay={0.2}>

@@ -26,9 +26,9 @@ function Hero() {
         </h1>
 
         <p className="lead">
-          IT Administrator specializing in <strong>Microsoft 365</strong>,{" "}
+          L2 IT Administrator specializing in <strong>Microsoft 365</strong>,{" "}
           <strong>Intune</strong>, and <strong>Cybersecurity</strong>.
-          Building secure, automated enterprise environments.
+          Handling escalations, mentoring L1s, and building secure enterprise environments.
         </p>
 
         <div className="hero-tags">

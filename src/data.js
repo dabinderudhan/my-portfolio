@@ -124,10 +124,11 @@ export const PROJECTS = [
 ];
 
 export const EXPERIENCE = [
-  "IT administration across Microsoft 365, endpoint operations, user support, and process standardization.",
-  "Hands-on work with Intune enrollment, device setup, onboarding workflows, and operational documentation.",
-  "Security-minded administration with focus on email protection, policy configuration, and safer defaults.",
-  "Growing practical depth in automation, PowerShell, and cybersecurity-oriented workflows.",
+  "Promoted to L2 — handling escalated tickets, advanced troubleshooting, and deeper Microsoft 365 administration.",
+  "Mentoring L1 team members, providing guidance on resolution workflows, and supporting knowledge transfer.",
+  "Expanded M365 responsibilities including Intune device management, Entra ID, Exchange Online, and policy configuration.",
+  "Hands-on work with endpoint enrollment, onboarding workflows, security hardening, and operational documentation.",
+  "Growing practical depth in automation, PowerShell scripting, and cybersecurity-oriented workflows.",
 ];
 
 export const ROADMAP = [
