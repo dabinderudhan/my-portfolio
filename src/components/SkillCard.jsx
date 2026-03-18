@@ -1,27 +1,23 @@
 import React from "react";
-import { motion } from "framer-motion";
+import FadeIn from "./FadeIn";
 
-function SkillCard({ group }) {
+function SkillCard({ group, delay = 0 }) {
   const Icon = group.icon;
 
   return (
-    <motion.div
-      className="card"
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35 }}
-      viewport={{ once: true }}
-    >
-      <div className="card-icon">
-        <Icon />
+    <FadeIn delay={delay}>
+      <div className="skill-card">
+        <div className="skill-icon">
+          <Icon />
+        </div>
+        <h3>{group.title}</h3>
+        <div className="skill-tags">
+          {group.items.map((item) => (
+            <span key={item} className="skill-tag">{item}</span>
+          ))}
+        </div>
       </div>
-      <h3>{group.title}</h3>
-      <ul className="list">
-        {group.items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    </motion.div>
+    </FadeIn>
   );
 }
 

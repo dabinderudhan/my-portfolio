@@ -7,7 +7,7 @@ import {
   TERMINAL_COMMANDS,
 } from "../data";
 
-function useTypewriter(lines, speed = 18, linePause = 350) {
+function useTypewriter(lines, speed = 18, linePause = 320) {
   const [text, setText] = useState("");
 
   useEffect(() => {
@@ -21,21 +21,18 @@ function useTypewriter(lines, speed = 18, linePause = 350) {
           if (cancelled) return;
           output += line[j];
           setText(output);
-          await new Promise((resolve) => setTimeout(resolve, speed));
+          await new Promise((r) => setTimeout(r, speed));
         }
-
         if (i !== lines.length - 1) {
           output += "\n";
           setText(output);
-          await new Promise((resolve) => setTimeout(resolve, linePause));
+          await new Promise((r) => setTimeout(r, linePause));
         }
       }
     }
 
     run();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [lines, speed, linePause]);
 
   return text;
@@ -50,6 +47,7 @@ function Terminal() {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [commandLog, setCommandLog] = useState([]);
   const inputRef = useRef(null);
+  const historyRef = useRef(null);
 
   const introText = useTypewriter(
     [
@@ -58,7 +56,7 @@ function Terminal() {
       "dabinder@portfolio:~$ focus",
       "Automation-first operations + security-minded delivery",
       "dabinder@portfolio:~$ next",
-      "Cybersecurity growth through hands-on admin, defense, and scripting",
+      "Cybersecurity growth \u2192 hands-on admin, defense, scripting",
     ],
     16,
     280
@@ -66,40 +64,34 @@ function Terminal() {
 
   const commands = useMemo(() => TERMINAL_COMMANDS, []);
 
+  useEffect(() => {
+    if (historyRef.current) {
+      historyRef.current.scrollTop = historyRef.current.scrollHeight;
+    }
+  }, [history]);
+
   const runCommand = (raw) => {
     const cmd = raw.trim().toLowerCase();
     let output = [];
 
     switch (cmd) {
       case "help":
-        output = [
-          "Commands: help, about, skills, projects, certs, experience, contact, linkedin, github, resume, clear",
-        ];
+        output = ["Commands: help, about, skills, projects, certs, experience, contact, linkedin, github, resume, clear"];
         break;
       case "about":
-        output = [
-          "IT Administrator focused on Microsoft 365, Intune, Entra ID, endpoint operations, automation, and cybersecurity growth.",
-        ];
+        output = ["IT Administrator focused on Microsoft 365, Intune, Entra ID, endpoint operations, automation, and cybersecurity growth."];
         break;
       case "skills":
-        output = [
-          "Microsoft 365, Intune, Entra ID, Exchange Online, Defender for O365, PowerShell, SOPs, automation",
-        ];
+        output = ["Microsoft 365, Intune, Entra ID, Exchange Online, Defender for O365, PowerShell, SOPs, automation"];
         break;
       case "projects":
-        output = [
-          "1. Intune Deployment SOP",
-          "2. Email Security Hardening",
-          "3. Automation Dashboard",
-        ];
+        output = ["1. Intune Deployment SOP", "2. Email Security Hardening", "3. Automation Dashboard"];
         break;
       case "certs":
-        output = ["MS-900, CompTIA A+, Network+, Security+, PowerShell"];
+        output = ["Roadmap: MS-900, CompTIA A+, Network+, Security+, PowerShell"];
         break;
       case "experience":
-        output = [
-          "IT administration, endpoint setup, Microsoft 365 operations, documentation, security-minded support",
-        ];
+        output = ["IT administration, endpoint setup, Microsoft 365 operations, documentation, security-minded support"];
         break;
       case "contact":
         output = [EMAIL, LINKEDIN];
@@ -123,7 +115,7 @@ function Terminal() {
         output = [""];
         break;
       default:
-        output = [`Command not found: ${cmd}`];
+        output = [`Command not found: ${cmd}. Type 'help' for available commands.`];
     }
 
     setHistory((prev) => [...prev, `dabinder@portfolio:~$ ${cmd}`, ...output]);
@@ -131,33 +123,30 @@ function Terminal() {
     setHistoryIndex(-1);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     runCommand(command);
     setCommand("");
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
       if (!commandLog.length) return;
-      const nextIndex =
-        historyIndex === -1 ? commandLog.length - 1 : Math.max(0, historyIndex - 1);
-      setHistoryIndex(nextIndex);
-      setCommand(commandLog[nextIndex]);
+      const next = historyIndex === -1 ? commandLog.length - 1 : Math.max(0, historyIndex - 1);
+      setHistoryIndex(next);
+      setCommand(commandLog[next]);
     }
-
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
       if (!commandLog.length || historyIndex === -1) return;
-
-      const nextIndex = historyIndex + 1;
-      if (nextIndex >= commandLog.length) {
+      const next = historyIndex + 1;
+      if (next >= commandLog.length) {
         setHistoryIndex(-1);
         setCommand("");
       } else {
-        setHistoryIndex(nextIndex);
-        setCommand(commandLog[nextIndex]);
+        setHistoryIndex(next);
+        setCommand(commandLog[next]);
       }
     }
   };
@@ -177,7 +166,7 @@ function Terminal() {
 
       <pre className="terminal-intro">
         {introText}
-        <span className="cursor">▍</span>
+        <span className="cursor-char">&block;</span>
       </pre>
 
       <div className="terminal-suggestions">
@@ -193,9 +182,9 @@ function Terminal() {
         ))}
       </div>
 
-      <div className="terminal-history">
-        {history.map((line, index) => (
-          <div key={`${line}-${index}`} className="terminal-line">
+      <div className="terminal-history" ref={historyRef}>
+        {history.map((line, i) => (
+          <div key={`${line}-${i}`} className="terminal-line">
             {line}
           </div>
         ))}
