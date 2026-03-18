@@ -1,14 +1,14 @@
-import { FiCpu, FiShield, FiTool } from "react-icons/fi";
+import { FiCpu, FiShield, FiTool, FiServer, FiHeadphones, FiLock } from "react-icons/fi";
 
 export const EMAIL = "Dabinder.udhan@gmail.com";
 export const LINKEDIN = "https://www.linkedin.com/in/dabinderudhan/";
 export const GITHUB = "https://github.com/dabinderudhan";
 export const WEBSITE = "https://dabinderudhan.com/";
-export const RESUME = "/resume.pdf";
+export const RESUME = "/Dabinder Udhan \u2013 Resume.pdf";
 
 export const SKILL_GROUPS = [
   {
-    title: "Microsoft Stack",
+    title: "Microsoft 365",
     icon: FiCpu,
     items: [
       "Microsoft 365",
@@ -41,6 +41,42 @@ export const SKILL_GROUPS = [
       "Process Standardization",
       "SOP Documentation",
       "Workflow Improvement",
+    ],
+  },
+  {
+    title: "Infrastructure",
+    icon: FiServer,
+    items: [
+      "Active Directory",
+      "Group Policy",
+      "DNS / DHCP",
+      "Windows Server",
+      "Networking",
+      "Cloud Architecture",
+    ],
+  },
+  {
+    title: "IT Service Mgmt",
+    icon: FiHeadphones,
+    items: [
+      "Ticketing Systems",
+      "Remote Support",
+      "Hardware Lifecycle",
+      "User Onboarding",
+      "Documentation",
+      "SLA Management",
+    ],
+  },
+  {
+    title: "Cybersecurity",
+    icon: FiLock,
+    items: [
+      "Threat Analysis",
+      "Incident Response",
+      "Vulnerability Mgmt",
+      "Network Security",
+      "Risk Assessment",
+      "Defense in Depth",
     ],
   },
 ];
@@ -95,12 +131,12 @@ export const EXPERIENCE = [
 ];
 
 export const ROADMAP = [
-  "MS-900",
-  "CompTIA A+",
-  "Network+",
-  "Security+",
-  "PowerShell scripting",
-  "Cybersecurity labs and defensive security projects",
+  { name: "MS-900", status: "target" },
+  { name: "CompTIA A+", status: "target" },
+  { name: "Network+", status: "target" },
+  { name: "Security+", status: "target" },
+  { name: "PowerShell scripting", status: "active" },
+  { name: "Cybersecurity labs & defensive security projects", status: "active" },
 ];
 
 export const TERMINAL_COMMANDS = [

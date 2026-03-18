@@ -1,34 +1,37 @@
 import React from "react";
 import { motion } from "framer-motion";
-import {
-  FiMail,
-  FiGithub,
-  FiLinkedin,
-  FiDownload,
-} from "react-icons/fi";
+import { FiMail, FiGithub, FiLinkedin, FiDownload } from "react-icons/fi";
 import { EMAIL, GITHUB, LINKEDIN, RESUME } from "../data";
 import Terminal from "./Terminal";
 
 function Hero() {
   return (
-    <section className="hero">
+    <section className="hero" id="top">
       <motion.div
         className="hero-copy"
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 32 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
       >
-        <div className="eyebrow">Automation-first • Security-minded • Modern IT</div>
+        <div className="status-badge">
+          <span className="status-dot" />
+          Open to Opportunities
+        </div>
+
         <h1>
-          Building reliable Microsoft 365 and endpoint operations with a growing
-          cybersecurity focus.
+          Dabinder
+          <br />
+          <span className="gradient">Udhan</span>
+          <span className="cursor-blink" />
         </h1>
+
         <p className="lead">
-          I work on device deployment, identity, email security, documentation,
-          and automation that reduces manual work and improves consistency.
+          IT Administrator specializing in <strong>Microsoft 365</strong>,{" "}
+          <strong>Intune</strong>, and <strong>Cybersecurity</strong>.
+          Building secure, automated enterprise environments.
         </p>
 
-        <div className="hero-highlights">
+        <div className="hero-tags">
           <span>Microsoft 365</span>
           <span>Intune</span>
           <span>Entra ID</span>
@@ -47,20 +50,24 @@ function Hero() {
           <a href={GITHUB} target="_blank" rel="noreferrer" className="btn btn-secondary">
             <FiGithub /> GitHub
           </a>
-          <a href={RESUME} className="btn btn-secondary">
+          <a href={RESUME} className="btn btn-secondary" target="_blank" rel="noreferrer">
             <FiDownload /> Resume
           </a>
         </div>
       </motion.div>
 
       <motion.div
-        className="hero-terminal"
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 32 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.65 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
       >
         <Terminal />
       </motion.div>
+
+      <div className="scroll-indicator">
+        <span>Scroll</span>
+        <div className="scroll-line" />
+      </div>
     </section>
   );
 }
