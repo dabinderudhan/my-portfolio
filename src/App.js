@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiAward, FiBriefcase, FiMail, FiGithub, FiLinkedin, FiTerminal, FiBookOpen, FiActivity, FiExternalLink } from "react-icons/fi";
+import { FiAward, FiBriefcase, FiMail, FiGithub, FiLinkedin, FiTerminal, FiExternalLink } from "react-icons/fi";
 import "./App.css";
 
 import Header from "./components/Header";
