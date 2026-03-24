@@ -17,6 +17,7 @@ import {
   GITHUB,
   LINKEDIN,
   PROJECTS,
+  CYBER_LABS,
   ROADMAP,
   SKILL_GROUPS,
 } from "./data";
@@ -99,6 +100,56 @@ function App() {
           <div className="projects-grid">
             {PROJECTS.map((project, i) => (
               <ProjectCard key={project.id} project={project} delay={0.08 + i * 0.08} />
+            ))}
+          </div>
+        </section>
+
+        {/* ═══════ CYBER LAB ═══════ */}
+        <section id="cyberlab" className="section">
+          <SectionHeading kicker="Cyber Lab" title="Hands-On Security Projects" />
+
+          <FadeIn delay={0.05}>
+            <p className="cyberlab-intro">
+              Documenting my journey from IT administration into cybersecurity through
+              practical, hands-on lab work. Each lab is a real environment I've built
+              to develop defensive security skills.
+            </p>
+          </FadeIn>
+
+          <div className="cyberlab-grid">
+            {CYBER_LABS.map((lab, i) => (
+              <FadeIn key={lab.id} delay={0.1 + i * 0.08}>
+                <article className="lab-card">
+                  <div className="lab-card-header">
+                    <span className={`lab-status ${lab.status}`}>
+                      {lab.status === "completed" ? "Completed" : lab.status === "in-progress" ? "In Progress" : "Coming Soon"}
+                    </span>
+                    <span className="lab-difficulty">{lab.difficulty}</span>
+                  </div>
+
+                  <h3>{lab.title}</h3>
+                  <p className="lab-subtitle">{lab.subtitle}</p>
+                  <p className="lab-description">{lab.description}</p>
+
+                  <div className="lab-tools">
+                    {lab.tools.map((tool) => (
+                      <span key={tool} className="lab-tool">{tool}</span>
+                    ))}
+                  </div>
+
+                  {lab.link && (
+                    <a
+                      href={lab.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-link"
+                      style={{ marginTop: 16 }}
+                    >
+                      View Write-Up →
+                    </a>
+                  )}
+                </article>
+              </FadeIn>
             ))}
           </div>
         </section>

@@ -14,6 +14,7 @@ function Header() {
     { href: "#about", label: "About" },
     { href: "#skills", label: "Skills" },
     { href: "#projects", label: "Projects" },
+    { href: "#cyberlab", label: "Cyber Lab" },
     { href: "#roadmap", label: "Roadmap" },
     { href: "#contact", label: "Contact" },
   ];

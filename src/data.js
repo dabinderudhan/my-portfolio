@@ -131,6 +131,43 @@ export const EXPERIENCE = [
   "Growing practical depth in automation, PowerShell scripting, and cybersecurity-oriented workflows.",
 ];
 
+export const CYBER_LABS = [
+  {
+    id: "ad-lab",
+    title: "Active Directory Home Lab",
+    subtitle: "Simulated enterprise AD environment",
+    status: "coming-soon",
+    difficulty: "Intermediate",
+    tools: ["Windows Server 2022", "Active Directory", "Group Policy", "PowerShell"],
+    description:
+      "Building a full domain controller environment to practice enterprise AD administration, GPO deployment, and user management.",
+    link: null,
+  },
+  {
+    id: "siem-lab",
+    title: "SIEM & Log Analysis Lab",
+    subtitle: "Security monitoring and threat detection",
+    status: "coming-soon",
+    difficulty: "Intermediate",
+    tools: ["Splunk", "Windows Event Logs", "Sysmon", "Threat Hunting"],
+    description:
+      "Setting up a SIEM environment to practice log ingestion, alert creation, and threat detection workflows.",
+    link: null,
+  },
+  {
+    id: "phishing-lab",
+    title: "Phishing Analysis Lab",
+    subtitle: "Email threat investigation",
+    status: "coming-soon",
+    difficulty: "Beginner",
+    tools: ["Defender for O365", "Email Headers", "URL Analysis", "Sandbox"],
+    description:
+      "Documenting a hands-on workflow for analyzing suspicious emails, tracing headers, and safely detonating URLs.",
+    link: null,
+  },
+];
+
+
 export const ROADMAP = [
   { name: "MS-900", status: "target" },
   { name: "CompTIA A+", status: "target" },
@@ -145,6 +182,7 @@ export const TERMINAL_COMMANDS = [
   "about",
   "skills",
   "projects",
+  "labs",
   "certs",
   "experience",
   "contact",

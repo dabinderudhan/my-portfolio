@@ -784,6 +784,137 @@ a { color: inherit; text-decoration: none; }
 
 .inline-link:hover { gap: 12px; }
 
+/* ─── CYBER LAB ───────────────────────────────────────────────────────── */
+
+.cyberlab-intro {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  max-width: 640px;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.cyberlab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 22px;
+}
+
+.lab-card {
+  padding: 28px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid var(--border);
+  transition: all 0.4s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.lab-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--blue));
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.lab-card:hover {
+  border-color: var(--border-hover);
+  background: var(--panel-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+}
+
+.lab-card:hover::before {
+  opacity: 1;
+}
+
+.lab-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.lab-status {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.lab-status.completed {
+  background: var(--accent-soft);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.lab-status.in-progress {
+  background: rgba(245, 158, 11, 0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.lab-status.coming-soon {
+  background: var(--blue-soft);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.lab-difficulty {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.lab-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.lab-subtitle {
+  font-size: 0.92rem;
+  color: var(--accent);
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.lab-description {
+  font-size: 0.93rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 18px;
+}
+
+.lab-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.lab-tool {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.08);
+  color: #c4b5fd;
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  letter-spacing: 0.3px;
+}
+
 /* ─── ROADMAP ─────────────────────────────────────────────────────────── */
 
 .roadmap-layout {
@@ -1057,7 +1188,8 @@ a { color: inherit; text-decoration: none; }
   .scroll-indicator { display: none; }
 
   .skills-grid,
-  .projects-grid {
+  .projects-grid,
+  .cyberlab-grid {
     grid-template-columns: 1fr;
   }
 }
