@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FiMail, FiGithub, FiLinkedin, FiDownload } from "react-icons/fi";
-import { EMAIL, GITHUB, LINKEDIN, RESUME } from "../data";
+import { EMAIL, GITHUB, LINKEDIN } from "../data";
 import Terminal from "./Terminal";
 
 function Hero() {
@@ -58,7 +58,7 @@ function Hero() {
           <a href={GITHUB} target="_blank" rel="noreferrer" className="btn btn-secondary">
             <FiGithub /> GitHub
           </a>
-          <a href={RESUME} className="btn btn-secondary" target="_blank" rel="noreferrer">
+          <a href="/resume.html" className="btn btn-secondary">
             <FiDownload /> Resume
           </a>
         </div>

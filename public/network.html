@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberLab Network Diagram — cyberlab.local</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:#07090e;color:#eef2f7;min-height:100vh;overflow-x:hidden}
+.top-bar{background:#0c1017;border-bottom:1px solid rgba(148,163,184,0.08);padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.top-bar a{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#10b981;text-decoration:none;display:flex;align-items:center;gap:6px}
+.top-bar h1{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:10px}
+.top-bar h1 span{color:#10b981}
+.container{max-width:1200px;margin:0 auto;padding:32px 24px}
+.diagram-wrapper{position:relative;background:rgba(14,18,28,0.5);border:1px solid rgba(148,163,184,0.08);border-radius:18px;padding:24px;overflow:hidden}
+.diagram-wrapper::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(16,185,129,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(16,185,129,0.015) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;border-radius:18px}
+svg{width:100%;height:auto;display:block}
+.node{cursor:pointer;transition:transform .3s,filter .3s}
+.node:hover{filter:drop-shadow(0 0 20px rgba(16,185,129,0.4))}
+.node-box{rx:14;ry:14;transition:all .3s}
+.node:hover .node-box{stroke-width:2}
+.conn-line{stroke-dasharray:6 4;animation:dash 30s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-200}}
+.legend{display:flex;gap:24px;flex-wrap:wrap;margin-top:24px;padding:18px;background:rgba(14,18,28,0.5);border:1px solid rgba(148,163,184,0.08);border-radius:12px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:.82rem;color:#94a3b8}
+.legend-dot{width:12px;height:12px;border-radius:4px}
+.info-panel{position:fixed;bottom:24px;right:24px;width:340px;background:rgba(12,16,24,0.95);backdrop-filter:blur(20px);border:1px solid rgba(148,163,184,0.12);border-radius:16px;padding:24px;transform:translateY(120%);transition:transform .4s cubic-bezier(0.16,1,0.3,1);z-index:50}
+.info-panel.visible{transform:translateY(0)}
+.info-panel .ip-close{position:absolute;top:12px;right:14px;background:none;border:none;color:#64748b;cursor:pointer;font-size:1.2rem}
+.info-panel h3{font-size:1.1rem;font-weight:700;margin-bottom:4px}
+.info-panel .ip-role{font-size:.82rem;color:#10b981;font-weight:500;margin-bottom:12px}
+.info-panel .ip-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(148,163,184,0.06);font-size:.82rem}
+.info-panel .ip-row:last-child{border-bottom:none}
+.info-panel .ip-label{color:#64748b}
+.info-panel .ip-value{font-family:'JetBrains Mono',monospace;color:#eef2f7;font-size:.78rem}
+.info-panel .ip-services{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.info-panel .ip-svc{font-family:'JetBrains Mono',monospace;font-size:.68rem;padding:3px 10px;border-radius:999px;background:rgba(16,185,129,0.08);color:#6ee7b7;border:1px solid rgba(16,185,129,0.12)}
+.net-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:24px}
+.ni-card{padding:18px;border-radius:12px;background:rgba(14,18,28,0.5);border:1px solid rgba(148,163,184,0.08)}
+.ni-card h4{font-size:.82rem;font-weight:600;margin-bottom:8px;color:#10b981;font-family:'JetBrains Mono',monospace;letter-spacing:1px;text-transform:uppercase;font-size:.7rem}
+.ni-card p{font-size:.85rem;color:#94a3b8;font-weight:300;line-height:1.6}
+.ni-card code{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:#eef2f7;background:rgba(255,255,255,0.04);padding:1px 6px;border-radius:4px}
+@media(max-width:768px){.info-panel{left:16px;right:16px;width:auto;bottom:16px}.legend{flex-direction:column;gap:10px}}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="/">← Back to Portfolio</a>
+  <h1>🌐 <span>cyberlab</span>.local Network</h1>
+  <a href="/cyberlab.html">Command Center →</a>
+</div>
+
+<div class="container">
+
+<div class="diagram-wrapper">
+<svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background network label -->
+  <text x="450" y="30" text-anchor="middle" fill="rgba(148,163,184,0.15)" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="600" letter-spacing="8">192.168.10.0/24</text>
+
+  <!-- Connection lines -->
+  <line x1="450" y1="165" x2="180" y2="310" class="conn-line" stroke="rgba(16,185,129,0.2)" stroke-width="1.5"/>
+  <line x1="450" y1="165" x2="450" y2="310" class="conn-line" stroke="rgba(16,185,129,0.2)" stroke-width="1.5"/>
+  <line x1="450" y1="165" x2="720" y2="310" class="conn-line" stroke="rgba(16,185,129,0.2)" stroke-width="1.5"/>
+
+  <!-- Switch/Router in center -->
+  <rect x="400" y="195" width="100" height="36" rx="8" fill="rgba(100,116,139,0.15)" stroke="rgba(100,116,139,0.3)" stroke-width="1"/>
+  <text x="450" y="218" text-anchor="middle" fill="#94a3b8" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="500">SWITCH</text>
+
+  <!-- Internet/Gateway -->
+  <g class="node" onclick="showInfo('gateway')">
+    <rect x="375" y="50" width="150" height="70" class="node-box" fill="rgba(100,116,139,0.1)" stroke="rgba(100,116,139,0.25)" stroke-width="1"/>
+    <text x="450" y="78" text-anchor="middle" fill="#94a3b8" font-family="'Outfit',sans-serif" font-size="13" font-weight="600">🌐 Gateway</text>
+    <text x="450" y="100" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono',monospace" font-size="10">192.168.10.1</text>
+  </g>
+  <line x1="450" y1="120" x2="450" y2="195" class="conn-line" stroke="rgba(100,116,139,0.2)" stroke-width="1.5"/>
+
+  <!-- DC01 - Domain Controller -->
+  <g class="node" onclick="showInfo('dc01')">
+    <rect x="90" y="290" width="180" height="100" class="node-box" fill="rgba(16,185,129,0.06)" stroke="rgba(16,185,129,0.25)" stroke-width="1.5"/>
+    <text x="180" y="320" text-anchor="middle" fill="#eef2f7" font-family="'Outfit',sans-serif" font-size="14" font-weight="700">🖥 DC01</text>
+    <text x="180" y="342" text-anchor="middle" fill="#10b981" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="500">192.168.10.10</text>
+    <text x="180" y="362" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono',monospace" font-size="9">Windows Server 2025</text>
+    <text x="180" y="378" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono',monospace" font-size="9">Domain Controller</text>
+  </g>
+
+  <!-- WIN10-CLIENT01 -->
+  <g class="node" onclick="showInfo('win10')">
+    <rect x="360" y="290" width="180" height="100" class="node-box" fill="rgba(59,130,246,0.06)" stroke="rgba(59,130,246,0.25)" stroke-width="1.5"/>
+    <text x="450" y="320" text-anchor="middle" fill="#eef2f7" font-family="'Outfit',sans-serif" font-size="14" font-weight="700">💻 WIN10-CLIENT01</text>
+    <text x="450" y="342" text-anchor="middle" fill="#3b82f6" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="500">192.168.10.20</text>
+    <text x="450" y="362" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono',monospace" font-size="9">Windows 10 Pro</text>
+    <text x="450" y="378" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono',monospace" font-size="9">Domain Joined Client</text>
+  </g>
+
+  <!-- KALI -->
+  <g class="node" onclick="showInfo('kali')">
+    <rect x="630" y="290" width="180" height="100" class="node-box" fill="rgba(239,68,68,0.06)" stroke="rgba(239,68,68,0.25)" stroke-width="1.5"/>
+    <text x="720" y="320" text-anchor="middle" fill="#eef2f7" font-family="'Outfit',sans-serif" font-size="14" font-weight="700">🐉 KALI</text>
+    <text x="720" y="342" text-anchor="middle" fill="#ef4444" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="500">192.168.10.50</text>
+    <text x="720" y="362" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono',monospace" font-size="9">Kali Linux 2025.1</text>
+    <text x="720" y="378" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono',monospace" font-size="9">Attack Machine</text>
+  </g>
+
+  <!-- Labels on connections -->
+  <text x="290" y="250" text-anchor="middle" fill="rgba(148,163,184,0.3)" font-family="'JetBrains Mono',monospace" font-size="8" transform="rotate(-20,290,250)">AD/DNS/DHCP</text>
+  <text x="450" y="268" text-anchor="middle" fill="rgba(148,163,184,0.3)" font-family="'JetBrains Mono',monospace" font-size="8">Domain Member</text>
+  <text x="610" y="250" text-anchor="middle" fill="rgba(148,163,184,0.3)" font-family="'JetBrains Mono',monospace" font-size="8" transform="rotate(20,610,250)">Pentest/Recon</text>
+
+  <!-- Status indicators -->
+  <circle cx="105" y="302" r="4" fill="#22c55e"><animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/></circle>
+  <circle cx="375" y="302" r="4" fill="#22c55e"><animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" begin="0.3s"/></circle>
+  <circle cx="645" y="302" r="4" fill="#22c55e"><animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" begin="0.6s"/></circle>
+
+  <!-- Domain label -->
+  <rect x="310" y="440" width="280" height="44" rx="10" fill="rgba(16,185,129,0.05)" stroke="rgba(16,185,129,0.15)" stroke-width="1"/>
+  <text x="450" y="458" text-anchor="middle" fill="#10b981" font-family="'JetBrains Mono',monospace" font-size="11" font-weight="600">DOMAIN: cyberlab.local</text>
+  <text x="450" y="475" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono',monospace" font-size="9">Functional Level: Windows Server 2025</text>
+
+  <!-- Click hint -->
+  <text x="450" y="510" text-anchor="middle" fill="rgba(148,163,184,0.25)" font-family="'Outfit',sans-serif" font-size="11">Click any machine for details</text>
+</svg>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Domain Controller</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Domain Client</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Attack Machine</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#64748b"></div>Network Infrastructure</div>
+</div>
+
+<div class="net-info">
+  <div class="ni-card">
+    <h4>Network</h4>
+    <p>Subnet: <code>192.168.10.0/24</code><br>Gateway: <code>192.168.10.1</code><br>DNS: <code>192.168.10.10</code> (DC01)</p>
+  </div>
+  <div class="ni-card">
+    <h4>Domain</h4>
+    <p>Name: <code>cyberlab.local</code><br>AD Users: <code>18</code><br>GPOs: Active security policies</p>
+  </div>
+  <div class="ni-card">
+    <h4>Purpose</h4>
+    <p>Hands-on cybersecurity training lab for AD security, network enumeration, blue team defense, and offensive security practice.</p>
+  </div>
+  <div class="ni-card">
+    <h4>Platform</h4>
+    <p>Virtualized environment running on VirtualBox with internal NAT networking for isolated lab operations.</p>
+  </div>
+</div>
+
+</div>
+
+<!-- Info Panel -->
+<div class="info-panel" id="infoPanel">
+  <button class="ip-close" onclick="hideInfo()">✕</button>
+  <h3 id="ipName"></h3>
+  <div class="ip-role" id="ipRole"></div>
+  <div id="ipRows"></div>
+  <div class="ip-services" id="ipServices"></div>
+</div>
+
+<script>
+const machines={
+  dc01:{name:'DC01',role:'Primary Domain Controller',specs:[['IP Address','192.168.10.10'],['OS','Windows Server 2025'],['Hostname','DC01.cyberlab.local'],['RAM','4 GB'],['Role','AD DS, DNS, DHCP, GPO'],['AD Users','18 accounts'],['Status','🟢 Online']],services:['Active Directory','DNS Server','DHCP Server','Group Policy','Kerberos','LDAP','SMB','WinRM']},
+  win10:{name:'WIN10-CLIENT01',role:'Domain-Joined Workstation',specs:[['IP Address','192.168.10.20'],['OS','Windows 10 Pro'],['Hostname','WIN10-CLIENT01'],['RAM','2 GB'],['Domain','cyberlab.local'],['User','Standard domain user'],['Status','🟢 Online']],services:['SMB Client','RDP','Windows Defender','Event Logging','Sysmon','PowerShell']},
+  kali:{name:'KALI',role:'Penetration Testing Machine',specs:[['IP Address','192.168.10.50'],['OS','Kali Linux 2025.1'],['Hostname','kali'],['RAM','2 GB'],['Network','Same subnet (no domain)'],['Purpose','Offensive security testing'],['Status','🟢 Online']],services:['Nmap','Metasploit','CrackMapExec','enum4linux','Hydra','Wireshark','Burp Suite','BloodHound']},
+  gateway:{name:'Gateway / Router',role:'Network Gateway',specs:[['IP Address','192.168.10.1'],['Type','NAT Gateway'],['Subnet','192.168.10.0/24'],['Mask','255.255.255.0'],['Internet','Isolated / NAT'],['Status','🟢 Online']],services:['NAT','Routing','DHCP Relay']}
+};
+
+function showInfo(id){
+  const m=machines[id],p=document.getElementById('infoPanel');
+  document.getElementById('ipName').textContent=m.name;
+  document.getElementById('ipRole').textContent=m.role;
+  document.getElementById('ipRows').innerHTML=m.specs.map(([l,v])=>`<div class="ip-row"><span class="ip-label">${l}</span><span class="ip-value">${v}</span></div>`).join('');
+  document.getElementById('ipServices').innerHTML=m.services.map(s=>`<span class="ip-svc">${s}</span>`).join('');
+  p.classList.add('visible');
+}
+
+function hideInfo(){document.getElementById('infoPanel').classList.remove('visible')}
+</script>
+</body>
+</html>

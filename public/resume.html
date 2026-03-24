@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dabinder Udhan — Resume</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#07090e;--surface:#0c1017;--card:rgba(14,18,28,0.7);--border:rgba(148,163,184,0.08);--text:#eef2f7;--dim:#94a3b8;--muted:#64748b;--accent:#10b981;--accent2:#3b82f6;--blue-soft:rgba(59,130,246,0.1);--font:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace}
+html{font-size:15px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(16,185,129,0.25)}
+@media print{body{background:#fff;color:#1e293b}:root{--bg:#fff;--surface:#f8fafc;--card:rgba(241,245,249,0.9);--border:rgba(0,0,0,0.08);--text:#1e293b;--dim:#475569;--muted:#94a3b8;--accent:#059669}.no-print{display:none!important}.resume{box-shadow:none!important;max-width:100%!important}}
+
+.top-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.top-bar a{font-family:var(--mono);font-size:.78rem;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:6px}
+.top-bar .actions{display:flex;gap:12px}
+.top-bar button{font-family:var(--mono);font-size:.75rem;padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:all .2s}
+.top-bar button:hover{border-color:var(--accent);color:var(--accent)}
+.top-bar button.primary{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+
+.resume{max-width:900px;margin:40px auto;padding:0 24px 80px}
+
+/* Header */
+.r-header{text-align:center;padding:48px 0 40px;border-bottom:1px solid var(--border);margin-bottom:40px}
+.r-name{font-size:2.8rem;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+.r-name span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.r-title{font-size:1.15rem;color:var(--dim);font-weight:400;margin-bottom:16px}
+.r-contact{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+.r-contact a{color:var(--accent);text-decoration:none}
+
+/* Section */
+.r-section{margin-bottom:36px}
+.r-section-title{font-family:var(--mono);font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.r-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Summary */
+.r-summary{font-size:1rem;color:var(--dim);line-height:1.85;font-weight:300;max-width:760px}
+
+/* Skills Grid */
+.r-skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.r-skill-group{padding:18px;border-radius:12px;background:var(--card);border:1px solid var(--border)}
+.r-skill-group h4{font-size:.82rem;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.r-skill-group h4 .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.r-skill-tag{display:inline-block;font-family:var(--mono);font-size:.68rem;padding:3px 10px;border-radius:999px;background:rgba(16,185,129,0.08);color:#6ee7b7;border:1px solid rgba(16,185,129,0.1);margin:2px 3px 2px 0}
+
+/* Timeline */
+.r-timeline{position:relative;padding-left:24px}
+.r-timeline::before{content:'';position:absolute;left:5px;top:8px;bottom:0;width:1px;background:rgba(16,185,129,0.15)}
+.r-entry{margin-bottom:28px;position:relative}
+.r-entry::before{content:'';position:absolute;left:-24px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px rgba(16,185,129,0.3)}
+.r-entry:last-child{margin-bottom:0}
+.r-entry .r-period{font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:1px;margin-bottom:4px}
+.r-entry .r-role{font-size:1.05rem;font-weight:700;margin-bottom:2px}
+.r-entry .r-company{font-size:.9rem;color:var(--accent);font-weight:500;margin-bottom:8px}
+.r-entry .r-desc{font-size:.88rem;color:var(--dim);line-height:1.75;font-weight:300}
+.r-entry .r-highlights{list-style:none;padding:0;margin-top:8px}
+.r-entry .r-highlights li{font-size:.85rem;color:var(--dim);line-height:1.7;font-weight:300;padding-left:16px;position:relative;margin-bottom:4px}
+.r-entry .r-highlights li::before{content:'';position:absolute;left:0;top:10px;width:6px;height:1px;background:var(--accent)}
+
+/* Certs */
+.r-certs{display:flex;flex-wrap:wrap;gap:10px}
+.r-cert{padding:12px 18px;border-radius:10px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.r-cert .badge{font-size:.65rem;font-weight:600;padding:3px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
+.r-cert .badge.earned{background:rgba(16,185,129,0.12);color:#6ee7b7}
+.r-cert .badge.studying{background:rgba(59,130,246,0.12);color:#93c5fd}
+.r-cert .badge.planned{background:rgba(100,116,139,0.12);color:var(--muted)}
+.r-cert-name{font-size:.85rem;font-weight:600}
+
+/* Education */
+.r-edu{font-size:.92rem;color:var(--dim);font-weight:300;line-height:1.7}
+.r-edu strong{color:var(--text);font-weight:600}
+
+/* Lab */
+.r-lab-card{padding:20px;border-radius:12px;background:var(--card);border:1px solid var(--border);max-width:500px}
+.r-lab-card h4{font-size:.9rem;font-weight:700;margin-bottom:6px}
+.r-lab-card p{font-size:.82rem;color:var(--dim);line-height:1.6;font-weight:300}
+.r-lab-machines{margin-top:12px;font-family:var(--mono);font-size:.72rem;color:var(--muted);line-height:2}
+
+@media(max-width:600px){
+  .r-header{padding:32px 0 28px}
+  .r-name{font-size:2rem}
+  .r-contact{flex-direction:column;align-items:center;gap:8px}
+  .r-skills{grid-template-columns:1fr}
+  .top-bar{flex-direction:column;gap:12px}
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar no-print">
+  <a href="/">← Back to Portfolio</a>
+  <div class="actions">
+    <button onclick="window.print()">🖨 Print / Save PDF</button>
+    <a href="/Dabinder Udhan – Resume.pdf" target="_blank"><button class="primary">📄 Download PDF</button></a>
+  </div>
+</div>
+
+<div class="resume">
+
+<header class="r-header">
+  <h1 class="r-name">Dabinder Singh <span>Udhan</span></h1>
+  <p class="r-title">L2 IT Administrator · Microsoft 365 · Intune · Cybersecurity</p>
+  <div class="r-contact">
+    <span>📍 Phoenix, AZ</span>
+    <span>📧 <a href="mailto:Dabinder.udhan@gmail.com">Dabinder.udhan@gmail.com</a></span>
+    <span>🔗 <a href="https://www.linkedin.com/in/dabinderudhan/" target="_blank">LinkedIn</a></span>
+    <span>🌐 <a href="https://dabinderudhan.com" target="_blank">dabinderudhan.com</a></span>
+    <span>💻 <a href="https://github.com/dabinderudhan" target="_blank">GitHub</a></span>
+  </div>
+</header>
+
+<div class="r-section">
+  <div class="r-section-title">Professional Summary</div>
+  <p class="r-summary">
+    Results-driven L2 IT Administrator with hands-on experience in Microsoft 365 administration, Intune endpoint management, Entra ID, Exchange Online, and security hardening. Currently deepening cybersecurity expertise through a dedicated home lab environment and certification pursuits. Combines 20+ years of operations and people leadership with growing technical depth in automation, PowerShell, and defensive security.
+  </p>
+</div>
+
+<div class="r-section">
+  <div class="r-section-title">Core Technical Skills</div>
+  <div class="r-skills">
+    <div class="r-skill-group">
+      <h4><span class="dot"></span>Cloud & Identity</h4>
+      <span class="r-skill-tag">Microsoft 365</span>
+      <span class="r-skill-tag">Intune</span>
+      <span class="r-skill-tag">Entra ID</span>
+      <span class="r-skill-tag">Exchange Online</span>
+      <span class="r-skill-tag">Teams Admin</span>
+    </div>
+    <div class="r-skill-group">
+      <h4><span class="dot"></span>Security</h4>
+      <span class="r-skill-tag">Defender for O365</span>
+      <span class="r-skill-tag">Email Security</span>
+      <span class="r-skill-tag">Policy Hardening</span>
+      <span class="r-skill-tag">Conditional Access</span>
+    </div>
+    <div class="r-skill-group">
+      <h4><span class="dot"></span>Infrastructure</h4>
+      <span class="r-skill-tag">Active Directory</span>
+      <span class="r-skill-tag">Group Policy</span>
+      <span class="r-skill-tag">Windows Server</span>
+      <span class="r-skill-tag">DNS / DHCP</span>
+    </div>
+    <div class="r-skill-group">
+      <h4><span class="dot"></span>Automation</h4>
+      <span class="r-skill-tag">PowerShell</span>
+      <span class="r-skill-tag">Task Automation</span>
+      <span class="r-skill-tag">SOP Documentation</span>
+      <span class="r-skill-tag">Reporting</span>
+    </div>
+  </div>
+</div>
+
+<div class="r-section">
+  <div class="r-section-title">Professional Experience</div>
+  <div class="r-timeline">
+    <div class="r-entry">
+      <div class="r-period">2024 — Present</div>
+      <div class="r-role">L2 IT Administrator (Service Desk)</div>
+      <div class="r-company">Global Market Innovators (GMI) · Phoenix, AZ</div>
+      <ul class="r-highlights">
+        <li>Promoted to L2 — handling escalated tickets, advanced troubleshooting, and deeper M365 administration</li>
+        <li>Mentor L1 team members on resolution workflows and knowledge transfer</li>
+        <li>Administer Microsoft 365 environment including Exchange Online, Intune, and Entra ID</li>
+        <li>Configure Defender for Office 365 policies for email security hardening</li>
+        <li>Build SOPs for Intune device enrollment and endpoint onboarding</li>
+        <li>Support workstation setup, hardware troubleshooting, user access, and peripheral configuration</li>
+        <li>Perform user onboarding/offboarding and coordinate escalations with senior admins</li>
+      </ul>
+    </div>
+    <div class="r-entry">
+      <div class="r-period">2023 — 2024</div>
+      <div class="r-role">Customer Service Representative</div>
+      <div class="r-company">Valor Global · Phoenix, AZ</div>
+      <ul class="r-highlights">
+        <li>Delivered high-volume customer support while meeting quality and performance benchmarks</li>
+        <li>Resolved customer issues efficiently using CRM systems to track interactions</li>
+        <li>Developed strong troubleshooting methodology and client communication skills</li>
+      </ul>
+    </div>
+    <div class="r-entry">
+      <div class="r-period">2000 — 2019</div>
+      <div class="r-role">Operations & Management Leadership</div>
+      <div class="r-company">Radiant Limousine · Sixt SE · LeasePlan · Taj Hotels · Avis · India</div>
+      <ul class="r-highlights">
+        <li>20+ years of progressive leadership across logistics, transportation, and hospitality</li>
+        <li>Managed large-scale operations, teams, fleet scheduling, vendor coordination, and P&L</li>
+        <li>Oversaw high-volume events coordinating up to 300 vehicles per day</li>
+        <li>Built and scaled operations while maintaining service quality and compliance</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="r-section">
+  <div class="r-section-title">Key Projects</div>
+  <div class="r-timeline">
+    <div class="r-entry">
+      <div class="r-role">Intune Deployment SOP</div>
+      <p class="r-desc">Built a repeatable endpoint onboarding workflow for new and repurposed Windows devices. Reduced deployment inconsistency and manual setup errors.</p>
+    </div>
+    <div class="r-entry">
+      <div class="r-role">Email Security Hardening</div>
+      <p class="r-desc">Configured safer inbound protection via Defender for O365, strengthened malicious link/attachment controls, and hardened tenant policies.</p>
+    </div>
+    <div class="r-entry">
+      <div class="r-role">Automation Dashboard</div>
+      <p class="r-desc">Built PowerShell scripts and dashboard workflows for recurring operational tasks. Improved reporting consistency and reduced repetitive manual work.</p>
+    </div>
+  </div>
+</div>
+
+<div class="r-section">
+  <div class="r-section-title">Certifications & Training</div>
+  <div class="r-certs">
+    <div class="r-cert"><span class="badge studying">Studying</span><span class="r-cert-name">CompTIA A+</span></div>
+    <div class="r-cert"><span class="badge planned">Planned</span><span class="r-cert-name">CompTIA Network+</span></div>
+    <div class="r-cert"><span class="badge planned">Planned</span><span class="r-cert-name">CompTIA Security+</span></div>
+    <div class="r-cert"><span class="badge planned">Planned</span><span class="r-cert-name">Microsoft MS-900</span></div>
+    <div class="r-cert"><span class="badge planned">Planned</span><span class="r-cert-name">Microsoft SC-900</span></div>
+  </div>
+</div>
+
+<div class="r-section">
+  <div class="r-section-title">Cybersecurity Home Lab</div>
+  <div class="r-lab-card">
+    <h4>cyberlab.local — Active Directory Security Lab</h4>
+    <p>Self-built lab environment for hands-on cybersecurity practice including AD administration, GPO attacks, network enumeration, SIEM log analysis, and incident investigation.</p>
+    <div class="r-lab-machines">
+      DC01 ........... 192.168.10.10 &nbsp;[Windows Server 2025]<br>
+      WIN10-CLIENT01 . 192.168.10.20 &nbsp;[Windows 10 Pro]<br>
+      KALI ........... 192.168.10.50 &nbsp;[Kali Linux 2025.1]
+    </div>
+  </div>
+</div>
+
+<div class="r-section">
+  <div class="r-section-title">Education</div>
+  <p class="r-edu"><strong>Bachelor of Computer Applications (BCA)</strong><br>Amity University, India</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -232,6 +232,17 @@ function App() {
             </a>
           </FadeIn>
 
+          <FadeIn delay={0.14}>
+            <a href="/network.html" className="command-center-btn" style={{ borderColor: "rgba(59,130,246,0.2)", background: "linear-gradient(135deg, rgba(59,130,246,0.08), rgba(129,140,248,0.06))" }}>
+              <span className="ccb-icon" style={{ background: "linear-gradient(135deg, rgba(59,130,246,0.15), rgba(129,140,248,0.1))" }}>🌐</span>
+              <div className="ccb-content">
+                <strong>Interactive Network Diagram</strong>
+                <span>Explore cyberlab.local — DC01, WIN10-CLIENT01, Kali — click machines for specs &amp; services</span>
+              </div>
+              <span className="ccb-arrow">→</span>
+            </a>
+          </FadeIn>
+
           <div className="cyberlab-grid">
             {CYBER_LABS.map((lab, i) => (
               <FadeIn key={lab.id} delay={0.15 + i * 0.08}>
