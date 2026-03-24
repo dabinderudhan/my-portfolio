@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberLab Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg-deep:#0a0e17;--bg-surface:#0f1420;--bg-card:rgba(17,22,36,0.7);
+  --bg-card-hover:rgba(22,28,45,0.85);--bg-glass:rgba(15,20,35,0.55);
+  --border:rgba(56,189,248,0.08);--border-hover:rgba(56,189,248,0.2);
+  --accent:#38bdf8;--accent-glow:rgba(56,189,248,0.15);--accent2:#818cf8;
+  --accent3:#34d399;--accent4:#f472b6;--accent5:#fbbf24;--accent6:#fb923c;
+  --red:#ef4444;--green:#22c55e;--yellow:#eab308;
+  --text:#e2e8f0;--text-dim:#64748b;--text-muted:#475569;
+  --glass-blur:20px;--radius:16px;--radius-sm:10px;--radius-xs:6px;
+  --shadow:0 8px 32px rgba(0,0,0,0.4);
+  --font-display:'Outfit',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth;font-size:15px}
+body{font-family:var(--font-display);background:var(--bg-deep);color:var(--text);min-height:100vh;overflow-x:hidden;line-height:1.6}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(56,189,248,0.06),transparent),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(129,140,248,0.04),transparent);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(56,189,248,0.2);border-radius:10px}
+.grid-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(56,189,248,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.header{position:sticky;top:0;z-index:100;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);background:rgba(10,14,23,0.8);border-bottom:1px solid var(--border);padding:0 2rem}
+.header-inner{max-width:1600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px var(--accent-glow)}
+.logo-text{font-weight:800;font-size:1.15rem;letter-spacing:-0.5px}
+.logo-text span{color:var(--accent)}
+.back-link{font-family:var(--font-mono);font-size:.78rem;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;border:1px solid rgba(56,189,248,0.15);transition:all .2s}
+.back-link:hover{background:var(--accent-glow);border-color:var(--accent)}
+.header-meta{display:flex;align-items:center;gap:1.5rem;font-size:.8rem;color:var(--text-dim)}
+.header-meta .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 2s infinite;margin-right:4px}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,0.4)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+.header-date{font-family:var(--font-mono);font-size:.75rem}
+.nav-bar{background:var(--bg-surface);border-bottom:1px solid var(--border);padding:0 2rem;position:sticky;top:64px;z-index:99}
+.nav-inner{max-width:1600px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-btn{padding:12px 18px;font-family:var(--font-display);font-size:.82rem;font-weight:500;color:var(--text-dim);background:none;border:none;cursor:pointer;white-space:nowrap;position:relative;transition:color .2s}
+.nav-btn:hover,.nav-btn.active{color:var(--accent)}
+.nav-btn.active::after{content:'';position:absolute;bottom:0;left:12px;right:12px;height:2px;background:var(--accent);border-radius:2px}
+.main{max-width:1600px;margin:0 auto;padding:1.5rem 2rem 4rem;position:relative;z-index:1}
+.section{display:none;animation:fadeUp .4s ease}
+.section.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.section-title{font-size:1.4rem;font-weight:800;margin-bottom:1.2rem;letter-spacing:-0.5px;display:flex;align-items:center;gap:10px}
+.section-title .icon{font-size:1.2rem}
+.glass-card{background:var(--bg-card);backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;transition:all .25s ease;position:relative;overflow:hidden}
+.glass-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(56,189,248,0.1),transparent)}
+.glass-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px);box-shadow:var(--shadow)}
+.summary-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:2rem}
+.summary-card{text-align:center;padding:1.2rem 1rem}
+.summary-card .sc-icon{font-size:1.5rem;margin-bottom:.5rem}
+.summary-card .sc-value{font-size:1.8rem;font-weight:800;font-family:var(--font-mono);letter-spacing:-1px}
+.summary-card .sc-label{font-size:.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;margin-top:4px;font-weight:600}
+.summary-card .sc-sub{font-size:.7rem;color:var(--accent);margin-top:6px;font-weight:500}
+.progress-track{width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden;position:relative}
+.progress-fill{height:100%;border-radius:10px;transition:width .8s cubic-bezier(.4,0,.2,1);position:relative}
+.progress-fill::after{content:'';position:absolute;right:0;top:0;width:20px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3));border-radius:10px}
+.progress-fill.blue{background:linear-gradient(90deg,var(--accent),#7dd3fc)}
+.progress-fill.purple{background:linear-gradient(90deg,var(--accent2),#c4b5fd)}
+.progress-fill.green{background:linear-gradient(90deg,var(--accent3),#6ee7b7)}
+.progress-fill.pink{background:linear-gradient(90deg,var(--accent4),#f9a8d4)}
+.progress-fill.yellow{background:linear-gradient(90deg,var(--accent5),#fde68a)}
+.progress-fill.orange{background:linear-gradient(90deg,var(--accent6),#fdba74)}
+.roadmap-container{display:flex;gap:1rem;overflow-x:auto;padding-bottom:1rem;scroll-snap-type:x mandatory}
+.roadmap-stage{min-width:260px;flex-shrink:0;scroll-snap-align:start;position:relative}
+.roadmap-stage .stage-num{font-family:var(--font-mono);font-size:.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.roadmap-stage .stage-title{font-size:1rem;font-weight:700;margin-bottom:6px}
+.roadmap-stage .stage-status{display:inline-block;font-size:.65rem;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.status-complete{background:rgba(34,197,94,0.15);color:var(--green)}
+.status-active{background:rgba(56,189,248,0.15);color:var(--accent)}
+.status-upcoming{background:rgba(100,116,139,0.15);color:var(--text-dim)}
+.roadmap-stage .stage-skills{font-size:.75rem;color:var(--text-dim);margin:8px 0}
+.roadmap-stage .stage-action{font-size:.75rem;color:var(--accent);font-weight:600;margin-top:auto;padding-top:10px;border-top:1px solid var(--border)}
+.roadmap-connector{position:absolute;right:-1rem;top:50%;width:1rem;height:2px;background:var(--border)}
+.roadmap-stage:last-child .roadmap-connector{display:none}
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.cert-card{cursor:pointer}
+.cert-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cert-name{font-weight:700;font-size:.95rem}
+.cert-badge{font-size:.65rem;font-weight:600;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+.cert-details{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.cert-card.expanded .cert-details{max-height:500px}
+.cert-topics{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0}
+.cert-topic{font-size:.68rem;padding:3px 8px;border-radius:var(--radius-xs);background:rgba(255,255,255,0.04);color:var(--text-dim);border:1px solid var(--border)}
+.cert-milestone{font-size:.78rem;color:var(--accent);font-weight:500;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.lab-filters{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+.filter-btn{padding:6px 14px;font-size:.72rem;font-weight:600;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;transition:all .2s;font-family:var(--font-display)}
+.filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-glow)}
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem}
+.lab-card .lab-top{display:flex;justify-content:space-between;align-items:start;margin-bottom:8px}
+.lab-card .lab-title{font-weight:700;font-size:.9rem}
+.lab-card .lab-meta{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.lab-tag{font-size:.63rem;padding:2px 8px;border-radius:var(--radius-xs);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.tag-difficulty-beginner{background:rgba(34,197,94,0.12);color:var(--green)}
+.tag-difficulty-intermediate{background:rgba(234,179,8,0.12);color:var(--yellow)}
+.tag-difficulty-advanced{background:rgba(239,68,68,0.12);color:var(--red)}
+.tag-cat{background:rgba(129,140,248,0.12);color:var(--accent2)}
+.lab-card .lab-obj{font-size:.78rem;color:var(--text-dim);margin:6px 0}
+.lab-card .lab-tools{font-size:.7rem;color:var(--text-muted);font-family:var(--font-mono)}
+.lab-card .lab-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.lab-card .lab-time{font-size:.72rem;color:var(--text-dim)}
+.lab-status-btn{font-size:.68rem;font-weight:700;padding:5px 14px;border-radius:20px;border:none;cursor:pointer;font-family:var(--font-display);transition:all .2s}
+.lab-status-btn.not-started{background:rgba(100,116,139,0.15);color:var(--text-dim)}
+.lab-status-btn.in-progress{background:rgba(56,189,248,0.15);color:var(--accent)}
+.lab-status-btn.completed{background:rgba(34,197,94,0.15);color:var(--green)}
+.skill-columns{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.skill-group-title{font-size:.85rem;font-weight:700;margin-bottom:.8rem;display:flex;align-items:center;gap:8px}
+.skill-group-title .dot{width:8px;height:8px;border-radius:50%}
+.skill-item{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.skill-item .skill-head{display:flex;justify-content:space-between;align-items:center}
+.skill-item .skill-name{font-size:.78rem;font-weight:600}
+.skill-item .skill-pct{font-size:.7rem;font-family:var(--font-mono);color:var(--text-dim)}
+.skill-item .skill-note{font-size:.68rem;color:var(--text-muted);font-style:italic}
+.nbs-card{max-width:600px;padding:2rem;border-left:3px solid var(--accent);position:relative}
+.nbs-card .nbs-label{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:8px;font-family:var(--font-mono)}
+.nbs-card .nbs-title{font-size:1.2rem;font-weight:800;margin-bottom:6px}
+.nbs-card .nbs-desc{font-size:.85rem;color:var(--text-dim);line-height:1.6}
+.nbs-card .nbs-reason{font-size:.75rem;color:var(--text-muted);margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.career-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem}
+.career-card .cc-title{font-size:.85rem;font-weight:700;margin-bottom:.8rem;display:flex;align-items:center;gap:8px}
+.career-card .cc-title .icon{font-size:1rem}
+.career-item{font-size:.78rem;color:var(--text-dim);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;gap:8px}
+.career-item:last-child{border-bottom:none}
+.career-item .ci-bullet{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.career-item.gap .ci-bullet{background:var(--red)}
+.career-item.strength .ci-bullet{background:var(--green)}
+.interview-item{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.interview-item .ii-topic{color:var(--text-dim)}
+.interview-item .ii-status{font-size:.65rem;font-weight:600;padding:2px 8px;border-radius:10px}
+.ii-ready{background:rgba(34,197,94,0.12);color:var(--green)}
+.ii-practicing{background:rgba(234,179,8,0.12);color:var(--yellow)}
+.ii-todo{background:rgba(100,116,139,0.12);color:var(--text-dim)}
+.terminal-widget{background:#0c0c0c;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.06);overflow:hidden;margin-top:1.5rem}
+.terminal-bar{display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.05)}
+.terminal-dot{width:10px;height:10px;border-radius:50%}
+.terminal-dot.r{background:#ff5f57}.terminal-dot.y{background:#ffbd2e}.terminal-dot.g{background:#28c840}
+.terminal-bar span{font-family:var(--font-mono);font-size:.68rem;color:var(--text-muted);margin-left:8px}
+.terminal-body{padding:14px 18px;font-family:var(--font-mono);font-size:.72rem;line-height:1.9;color:var(--accent3);max-height:200px;overflow-y:auto}
+.terminal-body .prompt{color:var(--accent)}
+.terminal-body .comment{color:var(--text-muted)}
+.target-role{display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--radius-sm);background:rgba(255,255,255,0.02);margin-bottom:6px;transition:background .2s}
+.target-role:hover{background:rgba(56,189,248,0.05)}
+.target-role .tr-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.target-role .tr-name{font-size:.8rem;font-weight:600}
+.target-role .tr-match{font-size:.68rem;color:var(--text-dim);font-family:var(--font-mono)}
+.scanline{position:fixed;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.015) 2px,rgba(0,0,0,0.015) 4px);pointer-events:none;z-index:1000}
+.fade-in{opacity:0;animation:fadeUp .5s ease forwards}
+.fade-in:nth-child(1){animation-delay:.05s}
+.fade-in:nth-child(2){animation-delay:.1s}
+.fade-in:nth-child(3){animation-delay:.15s}
+.fade-in:nth-child(4){animation-delay:.2s}
+.fade-in:nth-child(5){animation-delay:.25s}
+.fade-in:nth-child(6){animation-delay:.3s}
+.fade-in:nth-child(7){animation-delay:.35s}
+.fade-in:nth-child(8){animation-delay:.4s}
+.fade-in:nth-child(9){animation-delay:.45s}
+.fade-in:nth-child(10){animation-delay:.5s}
+.fade-in:nth-child(11){animation-delay:.55s}
+@media(max-width:1100px){.summary-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){
+  .summary-grid{grid-template-columns:repeat(2,1fr)}
+  .main{padding:1rem}
+  .header{padding:0 1rem}
+  .nav-bar{padding:0 1rem}
+  .roadmap-container{flex-direction:column}
+  .roadmap-stage{min-width:100%}
+  .roadmap-connector{display:none!important}
+  .header-meta{display:none}
+}
+@media(max-width:480px){.summary-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+<div class="scanline"></div>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">🛡</div>
+      <div class="logo-text"><span>Cyber</span>Lab Command</div>
+    </div>
+    <div class="header-meta">
+      <a href="/" class="back-link">← Back to Portfolio</a>
+      <span><span class="pulse"></span> cyberlab.local</span>
+      <span style="color:var(--text-muted)">|</span>
+      <span>192.168.10.x</span>
+      <span style="color:var(--text-muted)">|</span>
+      <span class="header-date" id="liveDate"></span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-bar">
+  <div class="nav-inner" id="navInner">
+    <button class="nav-btn active" data-section="overview">Overview</button>
+    <button class="nav-btn" data-section="roadmap">Roadmap</button>
+    <button class="nav-btn" data-section="certs">Certifications</button>
+    <button class="nav-btn" data-section="labs">Lab Tracker</button>
+    <button class="nav-btn" data-section="skills">Skill Focus</button>
+    <button class="nav-btn" data-section="nextstep">Next Best Step</button>
+    <button class="nav-btn" data-section="career">Career Intel</button>
+  </div>
+</nav>
+
+<main class="main">
+<div class="section active" id="sec-overview">
+  <div class="summary-grid" id="summaryGrid"></div>
+  <div class="section-title" style="margin-top:.5rem"><span class="icon">📡</span> Lab Environment Status</div>
+  <div class="terminal-widget">
+    <div class="terminal-bar"><span class="terminal-dot r"></span><span class="terminal-dot y"></span><span class="terminal-dot g"></span><span>cyberlab.local — terminal</span></div>
+    <div class="terminal-body" id="terminalBody"></div>
+  </div>
+  <div style="margin-top:2rem">
+    <div class="section-title"><span class="icon">🗺</span> Quick Roadmap</div>
+    <div class="roadmap-container" id="roadmapMini"></div>
+  </div>
+</div>
+<div class="section" id="sec-roadmap">
+  <div class="section-title"><span class="icon">🗺</span> Cybersecurity Roadmap</div>
+  <div class="roadmap-container" id="roadmapFull"></div>
+</div>
+<div class="section" id="sec-certs">
+  <div class="section-title"><span class="icon">🎓</span> Certification Tracker</div>
+  <div class="cert-grid" id="certGrid"></div>
+</div>
+<div class="section" id="sec-labs">
+  <div class="section-title"><span class="icon">🧪</span> Lab Tracker</div>
+  <div class="lab-filters" id="labFilters"></div>
+  <div class="lab-grid" id="labGrid"></div>
+</div>
+<div class="section" id="sec-skills">
+  <div class="section-title"><span class="icon">📊</span> Skill Focus Board</div>
+  <div class="skill-columns" id="skillColumns"></div>
+</div>
+<div class="section" id="sec-nextstep">
+  <div class="section-title"><span class="icon">🎯</span> Next Best Step</div>
+  <div id="nbsContainer"></div>
+</div>
+<div class="section" id="sec-career">
+  <div class="section-title"><span class="icon">💼</span> Career Intel</div>
+  <div class="career-grid" id="careerGrid"></div>
+</div>
+</main>
+
+<script>
+const summaryData=[{icon:'🎯',value:'AD Security',label:'Current Focus',sub:'Stage 4 of 6',color:'var(--accent)'},{icon:'🧪',value:'14',label:'Labs Completed',sub:'of 22 total',color:'var(--accent3)'},{icon:'🎓',value:'3',label:'Certs In Progress',sub:'A+ earned, Net+ next',color:'var(--accent2)'},{icon:'⚡',value:'12',label:'Skills This Week',sub:'+3 from last week',color:'var(--accent5)'},{icon:'📈',value:'42%',label:'Job Readiness',sub:'Target: SOC Analyst',color:'var(--accent4)'}];
+const roadmapData=[{num:'01',title:'IT Foundation',status:'complete',progress:100,skills:['Hardware & Troubleshooting','OS Fundamentals','Networking Basics','Help Desk Operations'],action:'✅ Stage complete — solid IT admin base',color:'var(--accent3)'},{num:'02',title:'Security Fundamentals',status:'complete',progress:100,skills:['CIA Triad & Risk','Authentication & Access Control','Encryption Basics','Security Policies'],action:'✅ Security+ concepts in progress',color:'var(--accent3)'},{num:'03',title:'Blue Team / SOC Skills',status:'active',progress:55,skills:['SIEM Log Analysis','Windows Event Logs','Incident Triage','Threat Detection'],action:'▶ Practice Splunk queries with lab logs',color:'var(--accent)'},{num:'04',title:'Active Directory Security',status:'active',progress:40,skills:['AD Enumeration','GPO Attacks','Kerberoasting','BloodHound'],action:'▶ Run SharpHound in cyberlab.local',color:'var(--accent)'},{num:'05',title:'Offensive Security',status:'upcoming',progress:15,skills:['Nmap Scanning','Metasploit Basics','Privilege Escalation','Password Attacks'],action:'⏳ Complete port scanning lab first',color:'var(--accent2)'},{num:'06',title:'Resume + Job Readiness',status:'upcoming',progress:10,skills:['Resume Workshop','LinkedIn Optimization','Portfolio Projects','Mock Interviews'],action:'⏳ Build 3 showcase projects',color:'var(--text-dim)'}];
+const certData=[{name:'CompTIA A+',status:'Earned',statusClass:'status-complete',progress:100,topics:['Hardware','Networking','Mobile Devices','Virtualization','Troubleshooting','OS Install/Config','Security Basics','Operational Procedures'],milestone:'✅ Earned — foundation locked in',color:'green'},{name:'CompTIA Network+',status:'Studying',statusClass:'status-active',progress:60,topics:['Network Architecture','Network Security','Network Operations','Network Troubleshooting','Network Implementations'],milestone:'▶ Finish subnetting module this week',color:'blue'},{name:'CompTIA Security+',status:'Studying',statusClass:'status-active',progress:35,topics:['Threats & Attacks','Architecture & Design','Implementation','Operations & IR','GRC'],milestone:'▶ Complete risk assessment chapter',color:'blue'},{name:'Microsoft MS-900',status:'Queued',statusClass:'status-upcoming',progress:10,topics:['Cloud Concepts','M365 Core Services','Security & Compliance','Pricing & Support'],milestone:'⏳ Start after Network+ exam',color:'purple'},{name:'Microsoft SC-900',status:'Queued',statusClass:'status-upcoming',progress:5,topics:['Security Concepts','Azure AD','Security Solutions','Compliance Solutions'],milestone:'⏳ Start after MS-900',color:'purple'}];
+const labData=[{title:'AD Domain Setup',difficulty:'Beginner',cat:'Active Directory',time:'90 min',obj:'Build cyberlab.local domain with DC01 and WIN10-CLIENT01',tools:'Windows Server 2025, PowerShell',status:'completed'},{title:'User & Group Management',difficulty:'Beginner',cat:'Active Directory',time:'60 min',obj:'Create OUs, users, groups. Assign permissions via GPO',tools:'ADUC, PowerShell, GPMC',status:'completed'},{title:'Network Enumeration',difficulty:'Intermediate',cat:'Offensive',time:'75 min',obj:'Discover hosts, services, and shares on 192.168.10.x',tools:'Nmap, Netdiscover, enum4linux',status:'completed'},{title:'Port Scanning Deep Dive',difficulty:'Intermediate',cat:'Offensive',time:'60 min',obj:'SYN, TCP, UDP, and version scans against lab targets',tools:'Nmap, Masscan, Kali Linux',status:'in-progress'},{title:'SMB Enumeration',difficulty:'Intermediate',cat:'Offensive',time:'45 min',obj:'Enumerate shares, users, and sessions via SMB',tools:'smbclient, CrackMapExec, enum4linux',status:'in-progress'},{title:'PowerShell for Security',difficulty:'Beginner',cat:'Scripting',time:'90 min',obj:'Write scripts for AD queries, log parsing, and automation',tools:'PowerShell ISE, VS Code',status:'completed'},{title:'Windows Event Log Analysis',difficulty:'Intermediate',cat:'Blue Team',time:'75 min',obj:'Identify suspicious logon events and lateral movement indicators',tools:'Event Viewer, PowerShell, Sysmon',status:'in-progress'},{title:'Privilege Escalation Concepts',difficulty:'Advanced',cat:'Offensive',time:'120 min',obj:'Explore token impersonation, service exploits, and UAC bypass',tools:'Kali Linux, Metasploit, PowerUp',status:'not-started'},{title:'Password Attack Lab',difficulty:'Advanced',cat:'Offensive',time:'90 min',obj:'Brute-force and dictionary attacks in isolated lab environment',tools:'Hydra, John the Ripper, Hashcat',status:'not-started'},{title:'Phishing Awareness',difficulty:'Beginner',cat:'Blue Team',time:'45 min',obj:'Analyze phishing emails, headers, and malicious indicators',tools:'Thunderbird, PhishTool, VirusTotal',status:'completed'},{title:'Basic Incident Investigation',difficulty:'Intermediate',cat:'Blue Team',time:'90 min',obj:'Triage a simulated security incident end-to-end',tools:'Splunk, Wireshark, Event Viewer',status:'not-started'}];
+const skillData={'Defensive':{color:'var(--accent)',items:[{name:'SIEM / Log Analysis',pct:35,note:'Practicing Splunk basics'},{name:'Incident Triage',pct:25,note:'Need more scenario practice'},{name:'Threat Detection',pct:20,note:'Building detection rules'},{name:'Malware Analysis Intro',pct:10,note:'Planned after Blue Team labs'}]},'Offensive':{color:'var(--red)',items:[{name:'Network Scanning',pct:55,note:'Nmap proficiency growing'},{name:'Enumeration',pct:40,note:'SMB/LDAP in progress'},{name:'Exploitation Basics',pct:15,note:'Metasploit intro started'},{name:'Privilege Escalation',pct:10,note:'Queued — finish scanning first'}]},'Scripting':{color:'var(--accent5)',items:[{name:'PowerShell',pct:50,note:'AD automation scripts built'},{name:'Bash',pct:35,note:'Kali scripting practice'},{name:'Python',pct:20,note:'Starting security tool scripts'}]},'Windows Admin':{color:'var(--accent2)',items:[{name:'Active Directory',pct:60,note:'Domain setup & GPO confident'},{name:'Group Policy',pct:45,note:'Security GPOs practiced'},{name:'Windows Server',pct:55,note:'DC01 management solid'},{name:'Event Logs',pct:35,note:'Learning Sysmon enrichment'}]},'Cloud / M365':{color:'var(--accent4)',items:[{name:'Azure AD / Entra ID',pct:15,note:'Starting with SC-900 prep'},{name:'Microsoft 365 Admin',pct:20,note:'MS-900 queued'},{name:'Conditional Access',pct:5,note:'After core cloud exams'}]}};
+const careerData={targetRoles:[{name:'SOC Analyst',match:'42%',icon:'🛡',bg:'rgba(56,189,248,0.1)'},{name:'Junior Security Analyst',match:'38%',icon:'🔍',bg:'rgba(129,140,248,0.1)'},{name:'IT Security Administrator',match:'50%',icon:'🔐',bg:'rgba(52,211,153,0.1)'},{name:'Vuln Management Analyst',match:'28%',icon:'🐛',bg:'rgba(244,114,182,0.1)'}],strengths:['Active Directory administration','Windows Server management','PowerShell scripting','Network fundamentals','Hardware troubleshooting','Help desk communication'],gaps:['SIEM hands-on experience','Incident response workflows','Cloud security (Azure/AWS)','Security+ certification','Vulnerability scanning tools','Threat intelligence analysis'],projects:['cyberlab.local AD security hardening report','Nmap scan analysis with documentation','PowerShell AD audit automation script','Phishing email analysis write-up','Incident investigation case study'],interview:[{topic:'Tell me about yourself / career story',status:'Practicing',cls:'ii-practicing'},{topic:'CIA Triad explanation',status:'Ready',cls:'ii-ready'},{topic:'Describe your home lab',status:'Ready',cls:'ii-ready'},{topic:'Walk through an incident triage',status:'To Do',cls:'ii-todo'},{topic:'How would you investigate a phishing email?',status:'Practicing',cls:'ii-practicing'},{topic:'Explain Kerberoasting / AD attack paths',status:'To Do',cls:'ii-todo'},{topic:'SIEM use-case scenario question',status:'To Do',cls:'ii-todo'},{topic:'What certs do you have / are pursuing?',status:'Ready',cls:'ii-ready'}]};
+function renderSummary(){document.getElementById('summaryGrid').innerHTML=summaryData.map((s,i)=>`<div class="glass-card summary-card fade-in" style="animation-delay:${i*0.06}s"><div class="sc-icon">${s.icon}</div><div class="sc-value" style="color:${s.color}">${s.value}</div><div class="sc-label">${s.label}</div><div class="sc-sub">${s.sub}</div></div>`).join('')}
+function renderTerminal(){document.getElementById('terminalBody').innerHTML=[{type:'prompt',text:'$ whoami'},{type:'output',text:'cyberlab\\admin'},{type:'prompt',text:'$ hostname'},{type:'output',text:'DC01.cyberlab.local'},{type:'prompt',text:'$ ipconfig | findstr IPv4'},{type:'output',text:'IPv4 Address. . . . . : 192.168.10.10'},{type:'comment',text:'# Lab machines:'},{type:'output',text:'DC01 ........... 192.168.10.10  [Windows Server 2025]'},{type:'output',text:'WIN10-CLIENT01 . 192.168.10.20  [Windows 10 Pro]'},{type:'output',text:'KALI ........... 192.168.10.50  [Kali Linux 2025.1]'},{type:'prompt',text:'$ Get-ADUser -Filter * | Measure-Object | Select Count'},{type:'output',text:'Count: 18'},{type:'prompt',text:'$ echo "All systems nominal. Lab is GO."'},{type:'output',text:'All systems nominal. Lab is GO.'}].map(l=>l.type==='prompt'?`<div><span class="prompt">${l.text}</span></div>`:l.type==='comment'?`<div><span class="comment">${l.text}</span></div>`:`<div>${l.text.replace(/\n/g,'<br>')}</div>`).join('')}
+function renderRoadmap(id){document.getElementById(id).innerHTML=roadmapData.map((s,i)=>`<div class="glass-card roadmap-stage fade-in" style="animation-delay:${i*0.08}s"><div class="stage-num">Stage ${s.num}</div><div class="stage-title">${s.title}</div><span class="stage-status ${s.status==='complete'?'status-complete':s.status==='active'?'status-active':'status-upcoming'}">${s.status}</span><div class="progress-track" style="margin:8px 0"><div class="progress-fill ${s.status==='complete'?'green':s.status==='active'?'blue':'purple'}" style="width:${s.progress}%"></div></div><div class="stage-skills">${s.skills.join(' · ')}</div><div class="stage-action">${s.action}</div><div class="roadmap-connector"></div></div>`).join('')}
+function renderCerts(){document.getElementById('certGrid').innerHTML=certData.map((c,i)=>`<div class="glass-card cert-card fade-in" style="animation-delay:${i*0.07}s" onclick="this.classList.toggle('expanded')"><div class="cert-header"><span class="cert-name">${c.name}</span><span class="cert-badge ${c.statusClass}">${c.status}</span></div><div class="progress-track"><div class="progress-fill ${c.color}" style="width:${c.progress}%"></div></div><div class="cert-details"><div class="cert-topics">${c.topics.map(t=>`<span class="cert-topic">${t}</span>`).join('')}</div><div class="cert-milestone">${c.milestone}</div></div><div style="text-align:center;margin-top:8px;font-size:.65rem;color:var(--text-muted)">Click to expand / collapse</div></div>`).join('')}
+function renderLabs(filter='all'){const filtered=filter==='all'?labData:labData.filter(l=>{if(['completed','in-progress','not-started'].includes(filter))return l.status===filter;return l.cat.toLowerCase().includes(filter.toLowerCase())});document.getElementById('labGrid').innerHTML=filtered.map((l,i)=>`<div class="glass-card lab-card fade-in" style="animation-delay:${i*0.05}s"><div class="lab-top"><div class="lab-title">${l.title}</div></div><div class="lab-meta"><span class="lab-tag tag-difficulty-${l.difficulty.toLowerCase()}">${l.difficulty}</span><span class="lab-tag tag-cat">${l.cat}</span></div><div class="lab-obj">${l.obj}</div><div class="lab-tools">Tools: ${l.tools}</div><div class="lab-footer"><span class="lab-time">⏱ ${l.time}</span><button class="lab-status-btn ${l.status==='completed'?'completed':l.status==='in-progress'?'in-progress':'not-started'}" onclick="cycleLab(this,event)">${l.status.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</button></div></div>`).join('')}
+function renderLabFilters(){const cats=['All','Active Directory','Blue Team','Offensive','Scripting','Completed','In-Progress','Not-Started'];const f=document.getElementById('labFilters');f.innerHTML=cats.map((c,i)=>`<button class="filter-btn${i===0?' active':''}" data-filter="${c.toLowerCase().replace(/ /g,'-')}">${c}</button>`).join('');f.querySelectorAll('.filter-btn').forEach(b=>b.addEventListener('click',()=>{f.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderLabs(b.dataset.filter==='all'?'all':b.dataset.filter)}))}
+function renderSkills(){document.getElementById('skillColumns').innerHTML=Object.entries(skillData).map(([group,data],gi)=>`<div class="glass-card fade-in" style="animation-delay:${gi*0.08}s"><div class="skill-group-title"><span class="dot" style="background:${data.color}"></span>${group}</div>${data.items.map(s=>`<div class="skill-item"><div class="skill-head"><span class="skill-name">${s.name}</span><span class="skill-pct">${s.pct}%</span></div><div class="progress-track"><div class="progress-fill blue" style="width:${s.pct}%;background:${data.color}"></div></div><div class="skill-note">${s.note}</div></div>`).join('')}</div>`).join('')}
+function renderNBS(){document.getElementById('nbsContainer').innerHTML=`<div class="glass-card nbs-card fade-in"><div class="nbs-label">▶ Recommended Action</div><div class="nbs-title">Complete Port Scanning Deep Dive</div><div class="nbs-desc">You have 3 labs in-progress. Finish the Port Scanning Deep Dive lab next — it directly feeds your Network Enumeration and Offensive Security skills. Once done, you'll unlock the SMB Enumeration lab context and move closer to Stage 5.</div><div class="nbs-reason">Why this step? Port scanning is a prerequisite skill for nearly every offensive security lab ahead. Completing it also boosts your Job Readiness score by ~4%.</div></div><div class="terminal-widget" style="margin-top:1.5rem"><div class="terminal-bar"><span class="terminal-dot r"></span><span class="terminal-dot y"></span><span class="terminal-dot g"></span><span>suggested command</span></div><div class="terminal-body"><div><span class="prompt">kali@cyberlab:~$</span> nmap -sS -sV -O -p- 192.168.10.10 -oN dc01_fullscan.txt</div><div><span class="comment"># Full SYN scan with version detection + OS fingerprinting against DC01</span></div></div></div>`}
+function renderCareer(){const d=careerData;document.getElementById('careerGrid').innerHTML=`<div class="glass-card career-card fade-in"><div class="cc-title"><span class="icon">🎯</span> Target Roles</div>${d.targetRoles.map(r=>`<div class="target-role"><div class="tr-icon" style="background:${r.bg}">${r.icon}</div><div><div class="tr-name">${r.name}</div><div class="tr-match">Match: ${r.match}</div></div></div>`).join('')}</div><div class="glass-card career-card fade-in" style="animation-delay:.08s"><div class="cc-title"><span class="icon">💪</span> Current Strengths</div>${d.strengths.map(s=>`<div class="career-item strength"><span class="ci-bullet"></span>${s}</div>`).join('')}</div><div class="glass-card career-card fade-in" style="animation-delay:.16s"><div class="cc-title"><span class="icon">⚠️</span> Skill Gaps to Close</div>${d.gaps.map(s=>`<div class="career-item gap"><span class="ci-bullet"></span>${s}</div>`).join('')}</div><div class="glass-card career-card fade-in" style="animation-delay:.24s"><div class="cc-title"><span class="icon">🏗</span> Projects to Showcase</div>${d.projects.map(s=>`<div class="career-item"><span class="ci-bullet"></span>${s}</div>`).join('')}</div><div class="glass-card career-card fade-in" style="animation-delay:.32s;grid-column:span 2"><div class="cc-title"><span class="icon">🎤</span> Interview Prep Tracker</div>${d.interview.map(i=>`<div class="interview-item"><span class="ii-topic">${i.topic}</span><span class="ii-status ${i.cls}">${i.status}</span></div>`).join('')}</div>`}
+function cycleLab(btn,e){e.stopPropagation();const states=['not-started','in-progress','completed'],labels=['Not Started','In Progress','Completed'];let idx=states.indexOf(btn.className.replace('lab-status-btn ',''));idx=(idx+1)%3;btn.className='lab-status-btn '+states[idx];btn.textContent=labels[idx];updateCounts()}
+function updateCounts(){let comp=0;document.querySelectorAll('.lab-status-btn').forEach(b=>{if(b.classList.contains('completed'))comp++});const sv=document.querySelectorAll('.summary-card .sc-value');if(sv[1])sv[1].textContent=comp;if(sv[1])sv[1].closest('.summary-card').querySelector('.sc-sub').textContent=`of ${labData.length} total`;const readiness=Math.min(100,Math.round(20+(comp/labData.length)*60+certData.filter(c=>c.progress===100).length*5));if(sv[4])sv[4].textContent=readiness+'%'}
+document.getElementById('navInner').addEventListener('click',e=>{if(!e.target.classList.contains('nav-btn'))return;document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));e.target.classList.add('active');document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('sec-'+e.target.dataset.section).classList.add('active')});
+function updateDate(){const now=new Date();document.getElementById('liveDate').textContent=now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'})+' '+now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+setInterval(updateDate,1000);updateDate();
+renderSummary();renderTerminal();renderRoadmap('roadmapMini');renderRoadmap('roadmapFull');renderCerts();renderLabFilters();renderLabs();renderSkills();renderNBS();renderCareer();
+</script>
+</body>
+</html>

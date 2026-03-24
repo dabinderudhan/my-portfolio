@@ -41,7 +41,7 @@ function useTypewriter(lines, speed = 18, linePause = 320) {
 function Terminal() {
   const [history, setHistory] = useState([
     "dabinder@portfolio:~$ help",
-    "Commands: help, about, skills, projects, certs, experience, contact, linkedin, github, resume, clear",
+    "Commands: help, about, skills, projects, labs, cyberlab, certs, experience, contact, linkedin, github, resume, clear",
   ]);
   const [command, setCommand] = useState("");
   const [historyIndex, setHistoryIndex] = useState(-1);
@@ -76,7 +76,7 @@ function Terminal() {
 
     switch (cmd) {
       case "help":
-        output = ["Commands: help, about, skills, projects, labs, certs, experience, contact, linkedin, github, resume, clear"];
+        output = ["Commands: help, about, skills, projects, labs, cyberlab, certs, experience, contact, linkedin, github, resume, clear"];
         break;
       case "about":
         output = ["L2 IT Administrator focused on M365, Intune, Entra ID, escalations, team mentoring, and cybersecurity growth."];
@@ -88,7 +88,11 @@ function Terminal() {
         output = ["1. Intune Deployment SOP", "2. Email Security Hardening", "3. Automation Dashboard"];
         break;
       case "labs":
-        output = ["1. Active Directory Home Lab", "2. SIEM & Log Analysis Lab", "3. Phishing Analysis Lab"];
+        output = ["1. Active Directory Home Lab", "2. SIEM & Log Analysis Lab", "3. Phishing Analysis Lab", "", "Type 'cyberlab' to launch the full Command Center"];
+        break;
+      case "cyberlab":
+        window.open("/cyberlab.html", "_blank", "noopener,noreferrer");
+        output = ["Launching CyberLab Command Center..."];
         break;
       case "certs":
         output = ["Roadmap: MS-900, CompTIA A+, Network+, Security+, PowerShell"];

@@ -116,9 +116,20 @@ function App() {
             </p>
           </FadeIn>
 
+          <FadeIn delay={0.1}>
+            <a href="/cyberlab.html" className="command-center-btn">
+              <span className="ccb-icon">🛡</span>
+              <div className="ccb-content">
+                <strong>Launch CyberLab Command Center</strong>
+                <span>Full dashboard — lab tracker, roadmap, skill board, cert progress, career intel & more</span>
+              </div>
+              <span className="ccb-arrow">→</span>
+            </a>
+          </FadeIn>
+
           <div className="cyberlab-grid">
             {CYBER_LABS.map((lab, i) => (
-              <FadeIn key={lab.id} delay={0.1 + i * 0.08}>
+              <FadeIn key={lab.id} delay={0.15 + i * 0.08}>
                 <article className="lab-card">
                   <div className="lab-card-header">
                     <span className={`lab-status ${lab.status}`}>

@@ -183,6 +183,7 @@ export const TERMINAL_COMMANDS = [
   "skills",
   "projects",
   "labs",
+  "cyberlab",
   "certs",
   "experience",
   "contact",
