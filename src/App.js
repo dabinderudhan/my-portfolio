@@ -1,5 +1,5 @@
-import React from "react";
-import { FiAward, FiBriefcase, FiMail, FiGithub, FiLinkedin, FiTerminal } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
+import { FiAward, FiBriefcase, FiMail, FiGithub, FiLinkedin, FiTerminal, FiBookOpen, FiActivity, FiExternalLink } from "react-icons/fi";
 import "./App.css";
 
 import Header from "./components/Header";
@@ -18,9 +18,75 @@ import {
   LINKEDIN,
   PROJECTS,
   CYBER_LABS,
+  BLOG_POSTS,
+  TOOLS,
   ROADMAP,
   SKILL_GROUPS,
 } from "./data";
+
+/* ── GitHub Activity (public API, no auth needed) ── */
+function GitHubActivity() {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://api.github.com/users/dabinderudhan/events/public?per_page=6")
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data)) setEvents(data.slice(0, 6));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const formatEvent = (e) => {
+    const repo = e.repo?.name?.split("/")[1] || e.repo?.name || "";
+    switch (e.type) {
+      case "PushEvent": return `Pushed ${e.payload?.commits?.length || 1} commit(s) to ${repo}`;
+      case "CreateEvent": return `Created ${e.payload?.ref_type || "repo"} in ${repo}`;
+      case "DeleteEvent": return `Deleted ${e.payload?.ref_type || "branch"} in ${repo}`;
+      case "WatchEvent": return `Starred ${repo}`;
+      case "ForkEvent": return `Forked ${repo}`;
+      case "IssuesEvent": return `${e.payload?.action || "Updated"} issue in ${repo}`;
+      case "PullRequestEvent": return `${e.payload?.action || "Updated"} PR in ${repo}`;
+      default: return `Activity in ${repo}`;
+    }
+  };
+
+  const timeAgo = (d) => {
+    const mins = Math.floor((Date.now() - new Date(d)) / 60000);
+    if (mins < 60) return `${mins}m ago`;
+    if (mins < 1440) return `${Math.floor(mins / 60)}h ago`;
+    return `${Math.floor(mins / 1440)}d ago`;
+  };
+
+  if (loading) return <div className="github-loading">Loading GitHub activity...</div>;
+  if (!events.length) return <div className="github-loading">No recent activity found.</div>;
+
+  return (
+    <div className="github-feed">
+      {events.map((e, i) => (
+        <FadeIn key={e.id} delay={0.05 + i * 0.05}>
+          <div className="github-event">
+            <div className="ge-dot" />
+            <div className="ge-content">
+              <span className="ge-text">{formatEvent(e)}</span>
+              <span className="ge-time">{timeAgo(e.created_at)}</span>
+            </div>
+          </div>
+        </FadeIn>
+      ))}
+    </div>
+  );
+}
+
+/* ── Tool Category Colors ── */
+const catColors = {
+  Cloud: { bg: "rgba(56,189,248,0.1)", color: "#38bdf8", border: "rgba(56,189,248,0.15)" },
+  Security: { bg: "rgba(239,68,68,0.1)", color: "#f87171", border: "rgba(239,68,68,0.15)" },
+  Infrastructure: { bg: "rgba(129,140,248,0.1)", color: "#a5b4fc", border: "rgba(129,140,248,0.15)" },
+  Scripting: { bg: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "rgba(251,191,36,0.15)" },
+};
 
 function App() {
   return (
@@ -51,7 +117,7 @@ function App() {
                 practical IT administration into stronger defensive security,
                 automation, and hands-on technical depth — working toward{" "}
                 <strong>CompTIA Security+</strong> and advanced Microsoft
-                certifications.
+                certifications through my own <strong>cyberlab.local</strong> home lab.
               </p>
             </FadeIn>
           </div>
@@ -86,11 +152,51 @@ function App() {
 
         {/* ═══════ SKILLS ═══════ */}
         <section id="skills" className="section">
-          <SectionHeading kicker="Technical Skills" title="Tools & Technologies I Work With" />
+          <SectionHeading kicker="Technical Skills" title="Core Capabilities" />
           <div className="skills-grid">
             {SKILL_GROUPS.map((group, i) => (
               <SkillCard key={group.title} group={group} delay={0.08 + i * 0.06} />
             ))}
+          </div>
+        </section>
+
+        {/* ═══════ TOOLS ═══════ */}
+        <section id="tools" className="section">
+          <SectionHeading kicker="Toolbox" title="Tools & Platforms I Use" />
+          <div className="tools-grid">
+            {Object.entries(
+              TOOLS.reduce((acc, t) => {
+                (acc[t.category] = acc[t.category] || []).push(t);
+                return acc;
+              }, {})
+            ).map(([cat, tools], ci) => {
+              const colors = catColors[cat] || catColors.Cloud;
+              return (
+                <FadeIn key={cat} delay={0.08 + ci * 0.06}>
+                  <div className="tools-category-card">
+                    <h3 className="tools-cat-title">
+                      <span className="tools-cat-dot" style={{ background: colors.color }} />
+                      {cat}
+                    </h3>
+                    <div className="tools-list">
+                      {tools.map((t) => (
+                        <span
+                          key={t.name}
+                          className="tool-chip"
+                          style={{
+                            background: colors.bg,
+                            color: colors.color,
+                            borderColor: colors.border,
+                          }}
+                        >
+                          {t.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </FadeIn>
+              );
+            })}
           </div>
         </section>
 
@@ -111,8 +217,7 @@ function App() {
           <FadeIn delay={0.05}>
             <p className="cyberlab-intro">
               Documenting my journey from IT administration into cybersecurity through
-              practical, hands-on lab work. Each lab is a real environment I've built
-              to develop defensive security skills.
+              practical, hands-on lab work on my <strong>cyberlab.local</strong> network.
             </p>
           </FadeIn>
 
@@ -137,25 +242,16 @@ function App() {
                     </span>
                     <span className="lab-difficulty">{lab.difficulty}</span>
                   </div>
-
                   <h3>{lab.title}</h3>
                   <p className="lab-subtitle">{lab.subtitle}</p>
                   <p className="lab-description">{lab.description}</p>
-
                   <div className="lab-tools">
                     {lab.tools.map((tool) => (
                       <span key={tool} className="lab-tool">{tool}</span>
                     ))}
                   </div>
-
                   {lab.link && (
-                    <a
-                      href={lab.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-link"
-                      style={{ marginTop: 16 }}
-                    >
+                    <a href={lab.link} target="_blank" rel="noreferrer" className="inline-link" style={{ marginTop: 16 }}>
                       View Write-Up →
                     </a>
                   )}
@@ -165,10 +261,65 @@ function App() {
           </div>
         </section>
 
+        {/* ═══════ BLOG ═══════ */}
+        <section id="blog" className="section">
+          <SectionHeading kicker="Blog" title="Write-Ups & Insights" />
+          <FadeIn delay={0.05}>
+            <p className="cyberlab-intro">
+              Sharing what I learn — lab walkthroughs, troubleshooting wins, security findings,
+              and lessons from the admin-to-cyber journey.
+            </p>
+          </FadeIn>
+          <div className="blog-grid">
+            {BLOG_POSTS.map((post, i) => (
+              <FadeIn key={post.id} delay={0.1 + i * 0.08}>
+                <article className="blog-card">
+                  <div className="blog-card-top">
+                    <span className="blog-category">{post.category}</span>
+                    <span className="blog-date">{post.date}</span>
+                  </div>
+                  <h3 className="blog-title">{post.title}</h3>
+                  <p className="blog-excerpt">{post.excerpt}</p>
+                  <div className="blog-tags">
+                    {post.tags.map((tag) => (
+                      <span key={tag} className="blog-tag">{tag}</span>
+                    ))}
+                  </div>
+                  <div className="blog-footer">
+                    {post.status === "draft" ? (
+                      <span className="blog-draft-badge">Coming Soon</span>
+                    ) : (
+                      <a href={`/blog/${post.id}`} className="inline-link">
+                        Read More <FiExternalLink size={13} />
+                      </a>
+                    )}
+                  </div>
+                </article>
+              </FadeIn>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══════ GITHUB ACTIVITY ═══════ */}
+        <section id="github-activity" className="section">
+          <SectionHeading kicker="GitHub" title="Recent Activity" />
+          <FadeIn delay={0.1}>
+            <div className="github-card">
+              <div className="github-card-header">
+                <FiGithub size={20} />
+                <span>@dabinderudhan</span>
+                <a href={GITHUB} target="_blank" rel="noreferrer" className="github-profile-link">
+                  View Profile <FiExternalLink size={12} />
+                </a>
+              </div>
+              <GitHubActivity />
+            </div>
+          </FadeIn>
+        </section>
+
         {/* ═══════ ROADMAP ═══════ */}
         <section id="roadmap" className="section">
           <SectionHeading kicker="Roadmap" title="Learning & Certifications" />
-
           <div className="roadmap-layout">
             <FadeIn delay={0.1}>
               <div className="roadmap-card">
@@ -185,7 +336,6 @@ function App() {
                 </ul>
               </div>
             </FadeIn>
-
             <FadeIn delay={0.18}>
               <div className="roadmap-card">
                 <h3><FiTerminal /> What I'm Building Next</h3>
@@ -194,7 +344,7 @@ function App() {
                     "Better project case studies with screenshots and outcomes",
                     "More PowerShell automation examples",
                     "Security-focused lab work and documentation",
-                    "Deeper portfolio content for admin-to-cyber transition",
+                    "Blog write-ups for each completed lab",
                   ].map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -207,14 +357,11 @@ function App() {
         {/* ═══════ CONTACT ═══════ */}
         <section id="contact" className="section">
           <SectionHeading kicker="Contact" title="Let's Connect" />
-
           <FadeIn delay={0.1}>
             <p className="contact-text">
-              Interested in collaborating or have an opportunity? I'd love to hear
-              from you. Reach out via email or connect on LinkedIn.
+              Interested in collaborating or have an opportunity? I'd love to hear from you.
             </p>
           </FadeIn>
-
           <div className="contact-grid">
             <FadeIn delay={0.15}>
               <a className="contact-card" href={`mailto:${EMAIL}`}>
@@ -225,7 +372,6 @@ function App() {
                 </div>
               </a>
             </FadeIn>
-
             <FadeIn delay={0.2}>
               <a className="contact-card" href={LINKEDIN} target="_blank" rel="noreferrer">
                 <FiLinkedin />
@@ -235,7 +381,6 @@ function App() {
                 </div>
               </a>
             </FadeIn>
-
             <FadeIn delay={0.25}>
               <a className="contact-card" href={GITHUB} target="_blank" rel="noreferrer">
                 <FiGithub />

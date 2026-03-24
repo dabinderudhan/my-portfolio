@@ -131,6 +131,57 @@ export const EXPERIENCE = [
   "Growing practical depth in automation, PowerShell scripting, and cybersecurity-oriented workflows.",
 ];
 
+export const BLOG_POSTS = [
+  {
+    id: "getting-started-homelab",
+    title: "Building My CyberLab from Scratch",
+    date: "Coming Soon",
+    category: "Lab Setup",
+    excerpt: "How I set up cyberlab.local with Windows Server 2025, Kali Linux, and a Windows 10 client — from planning to first domain join.",
+    tags: ["Active Directory", "Windows Server", "Networking"],
+    status: "draft",
+  },
+  {
+    id: "intune-deployment-lessons",
+    title: "Lessons from Intune Deployment at Scale",
+    date: "Coming Soon",
+    category: "IT Admin",
+    excerpt: "What I learned building a repeatable Intune enrollment SOP — the mistakes, the fixes, and the process that stuck.",
+    tags: ["Intune", "Endpoint Management", "SOP"],
+    status: "draft",
+  },
+  {
+    id: "email-security-hardening",
+    title: "Hardening M365 Email Security",
+    date: "Coming Soon",
+    category: "Security",
+    excerpt: "A practical walkthrough of tightening Defender for Office 365 policies — safer defaults without breaking mail flow.",
+    tags: ["Defender for O365", "Exchange Online", "Security"],
+    status: "draft",
+  },
+];
+
+export const TOOLS = [
+  { name: "Microsoft 365", category: "Cloud" },
+  { name: "Intune", category: "Cloud" },
+  { name: "Entra ID", category: "Cloud" },
+  { name: "Exchange Online", category: "Cloud" },
+  { name: "Defender for O365", category: "Security" },
+  { name: "Active Directory", category: "Infrastructure" },
+  { name: "Windows Server", category: "Infrastructure" },
+  { name: "PowerShell", category: "Scripting" },
+  { name: "Group Policy", category: "Infrastructure" },
+  { name: "Kali Linux", category: "Security" },
+  { name: "Nmap", category: "Security" },
+  { name: "Splunk", category: "Security" },
+  { name: "Wireshark", category: "Security" },
+  { name: "VS Code", category: "Scripting" },
+  { name: "Git & GitHub", category: "Scripting" },
+  { name: "VirtualBox", category: "Infrastructure" },
+  { name: "Sysmon", category: "Security" },
+  { name: "Windows 10/11", category: "Infrastructure" },
+];
+
 export const CYBER_LABS = [
   {
     id: "ad-lab",

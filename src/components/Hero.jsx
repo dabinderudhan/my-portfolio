@@ -23,7 +23,7 @@ function Hero() {
 
         <div className="status-badge">
           <span className="status-dot" />
-          Open to Opportunities
+          Currently Building &amp; Learning
         </div>
 
         <h1>
