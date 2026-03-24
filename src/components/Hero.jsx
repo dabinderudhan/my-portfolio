@@ -13,6 +13,14 @@ function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
       >
+        <div className="profile-photo-wrapper">
+          <img
+            src="/profile.jpeg"
+            alt="Dabinder Udhan"
+            className="profile-photo"
+          />
+        </div>
+
         <div className="status-badge">
           <span className="status-dot" />
           Open to Opportunities

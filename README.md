@@ -1,8 +1,8 @@
-# Dabinder Udhan — Portfolio v2.1
+# Dabinder Udhan — Portfolio v2.0
 
 A modern, dark-themed IT Administrator portfolio built with React.
 
-## What's New in v2.1
+## What's New in v2.0
 
 - **Refined dark theme** with emerald (#10b981) accent and subtle animated grid background
 - **Premium typography** using Outfit + JetBrains Mono fonts
